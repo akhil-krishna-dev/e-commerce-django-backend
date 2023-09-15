@@ -1,0 +1,25 @@
+.registration-form{
+    background-color: rgb(122, 167, 219);
+    width: 40%;
+    margin:  50px auto;
+    padding: 25px;
+    border-radius: 15px;
+    border: solid 2px rgb(221, 219, 216);
+}
+
+.login-form{
+    background-color: rgb(122, 167, 219);
+    width: 40%;
+    margin:  50px auto;
+    padding: 40px 25px 25px 25px;
+    border-radius: 15px;
+    border: solid 2px rgb(221, 219, 216);
+
+}
+
+@media (max-width:768px){
+    .login-form,.registration-form{
+        width: 95%;
+    }
+}
+

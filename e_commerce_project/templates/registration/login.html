@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %} {% block title %}registration{% endblock %} {% block content %} {% load static %}
+<h3 class="text-center">Login with Your account</h3>
+<form method="post" class="login-form">
+    {% csrf_token %}{{form.non_field_errors}}
+    <p>
+    <label for="id_username">Email:</label>
+    <input class="form-control" type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="254" required id="id_username">   
+  </p>
+
+  
+  <p>
+    <label for="id_password">Password:</label>
+    <input class="form-control" type="password" name="password" autocomplete="current-password" required id="id_password">
+    
+  </p>
+   
+    <div class="d-flex justify-content-center w-100 mt-4">
+        <button class="btn btn-lg btn-success">Login</button>
+    </div>
+</form>
+
+{% endblock %}
