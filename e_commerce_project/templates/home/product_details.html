@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %} {% block title %}Home{% endblock %} {% block content %} {% load static %}
+
+{{product.name}}
+
+<br>
+
+
+{% for pv in product_variant %}
+<a href="#">{{pv.color.name}}</a>
+{% endfor %}
+
+
+
+{% endblock %}
