@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.core.validators import MaxValueValidator
 
 
 
@@ -27,16 +28,21 @@ class Product(models.Model):
     slug = models.SlugField(max_length=250)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True,help_text='Not required.only if the brand has')
+    description = models.TextField(blank=True, null=True)
     image_main = models.ImageField(upload_to='product/main/images',blank=False,null=False)
     available = models.BooleanField(default=True)
+    orginal_price = models.PositiveIntegerField(blank=True, null=True)
     search_keywords = models.CharField(max_length=150, blank=True, null=True, help_text='Not required. Only for users to search for products on the website.')
 
     def __str__(self):
         return self.name
     
 
-    def get_url(self):
-        return reverse('product_details', args = [self.category.slug, self.slug])
+
+
+
+    # def get_url(self):
+    #     return reverse('product_details', args = [self.category.slug, self.slug])
    
 
 
@@ -76,7 +82,19 @@ class ProductVariant(models.Model):
     product_color_variant = models.ForeignKey(ProductColorVariant, blank=True, null=True, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, blank=True, null=True, on_delete=models.CASCADE)
     price = models.PositiveIntegerField(blank=False, null=False)
-    stock = models.PositiveSmallIntegerField(blank=False, null=False)
+    stock = models.PositiveSmallIntegerField(blank=True, null=True)
+    offer = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(100)], help_text='offer %')
+    
+
+
+    def selling_price(self):
+        return self.product_color_variant.product.orginal_price - self.product_color_variant.product.orginal_price//100*self.offer
+
+
+
+    def get_url(self):
+        return reverse('product_details', args = [ self.product_color_variant.product.category.slug, self.product_color_variant.product.slug, self.product_color_variant.color.name, self.size.name])
+
 
 
     

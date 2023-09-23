@@ -12,9 +12,14 @@
         {% for p in product.object_list %}
         <a class="product" href="{{p.get_url}}">
             <div class="image-main">
-                <img src="{{p.image_main.url}}" alt="{{p.name}}" />
+                {% if p.product_color_variant.image1 %}
+                <img src="{{p.product_color_variant.image1.url}}" alt="{{p.product_color_variant.product.name}}" />
+                {% else %}
+                <img src="{{p.product_color_variant.product.image_main.url}}" alt="{{p.product_color_variant.product.name}}" />
+                {% endif %}
             </div>
-            <div class="name">{{p.name}}</div>
+            <div class="name">{{p.product_color_variant.product.name}} ({{p.product_color_variant.color.name}}, {{p.size.name}})</div>
+            <div class="price">Rs.{{p.price}}</div>
         </a>
         {% endfor %}
     </div>
