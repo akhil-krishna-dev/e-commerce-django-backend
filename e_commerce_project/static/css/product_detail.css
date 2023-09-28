@@ -114,3 +114,19 @@
     border: solid 3px rgb(35, 86, 204);
     border-radius: 6px;
 }
+.select-color h6{
+    margin-top: 35px;
+}
+.select-size h6{
+    margin-top: 2px;
+}
+
+.image-parent:has(.actived-image){
+
+    border: solid 2px rgb(49, 49, 185);
+}
+
+.swiper{
+    width: 60px;
+    height: 200px;
+}

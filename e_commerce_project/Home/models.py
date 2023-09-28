@@ -36,14 +36,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
-
-
-
-
-    # def get_url(self):
-    #     return reverse('product_details', args = [self.category.slug, self.slug])
-   
+       
 
 
 
@@ -85,7 +78,9 @@ class ProductVariant(models.Model):
     stock = models.PositiveSmallIntegerField(blank=True, null=True)
     offer = models.PositiveSmallIntegerField(blank=True, null=True, validators=[MaxValueValidator(100)], help_text='offer %')
     
-
+    
+    def orginal_price(self):
+        return self.product_color_variant.product.orginal_price
 
     def selling_price(self):
         return self.product_color_variant.product.orginal_price - self.product_color_variant.product.orginal_price//100*self.offer
@@ -93,7 +88,12 @@ class ProductVariant(models.Model):
 
 
     def get_url(self):
-        return reverse('product_details', args = [ self.product_color_variant.product.category.slug, self.product_color_variant.product.slug, self.product_color_variant.color.name, self.size.name])
+        return reverse('product_details', args = [ 
+            self.product_color_variant.product.category.slug, 
+            self.product_color_variant.product.slug, 
+            self.product_color_variant.color.name, 
+            self.size.name
+        ])
 
 
 

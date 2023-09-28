@@ -5,16 +5,16 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+        <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
         <link rel="stylesheet" href="{% static 'css/registration.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/index.css' %}">
-        <link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg p-3" >
+        <nav class="navbar navbar-expand-lg p-3">
             <div class="container-fluid">
                 <a class="navbar-brand text-white" href="{% url 'home' %}">Home</a>
                 <button
@@ -32,8 +32,15 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                          <a class="nav-link active text-white" aria-current="page" href="#">{% if user.first_name %} {{user.first_name.upper}}{% else %}{{user.email.upper}}{% endif %}</a>
-                      </li>                     
+                            <a class="nav-link active text-white" aria-current="page" href="#"
+                                >{% if user.first_name %} 
+                                {{user.first_name.upper}}
+                                {% else %}
+                                {{user.email.upper}}
+                                {% endif %}
+                                </a
+                            >
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link active text-white" aria-current="page" href="{% url 'logout' %}">Logout</a>
                         </li>
@@ -50,75 +57,84 @@
                 </div>
             </div>
             <form class="d-flex search-box" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search Products" aria-label="Search" />
+                <input class="form-control me-2" name="search-products" type="search" placeholder="Search Products" aria-label="Search" />
                 <button class="btn btn-outline-light" type="submit">Search</button>
             </form>
         </nav>
 
-        <main class="main">
-            {% block content %} {% endblock %}
-            
-        </main>
-
-
-
+        <main class="main">{% block content %} {% endblock %}</main>
 
         <!-- Footer section -->
-          <!-- Site footer -->
-    <footer class="site-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-12 col-md-6">
-              <h6>About</h6>
-              <p class="text-justify">ecommerce.com <i></i> An e-commerce website is one that allows people to buy and sell physical goods, services, and digital products over the internet rather than at a brick-and-mortar location. Through an e-commerce website, a business can process orders, accept payments, manage shipping and logistics, and provide customer service.</p>
-            </div>
-  
-            <div class="col-xs-6 col-md-3">
-              <h6>Categories</h6>
-              <ul class="footer-links">
-                {% for c in category %}
-                <li><a href="{% url 'category_view' c.slug %}">{{c.name}}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-  
-            <div class="col-xs-6 col-md-3">
-              <h6>Quick Links</h6>
-              <ul class="footer-links">
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Contribute</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Sitemap</a></li>
-              </ul>
-            </div>
-          </div>
-          <hr>
-        </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 col-sm-6 col-xs-12">
-              <p class="copyright-text">Copyright &copy; 2023 All Rights Reserved by 
-           <a href="#">Akhil Krishna</a>.
-              </p>
-            </div>
-  
-            <div class="col-md-4 col-sm-6 col-xs-12">
-              <ul class="social-icons">
-                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
-              </ul>
-            </div>
-          </div>
-        </div>
-  </footer>
+        <!-- Site footer -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <h6>About</h6>
+                        <p class="text-justify">
+                            ecommerce.com <i></i> An e-commerce website is one that allows people to buy and sell physical
+                            goods, services, and digital products over the internet rather than at a brick-and-mortar
+                            location. Through an e-commerce website, a business can process orders, accept payments, manage
+                            shipping and logistics, and provide customer service.
+                        </p>
+                    </div>
 
+                    <div class="col-xs-6 col-md-3">
+                        <h6>Categories</h6>
+                        <ul class="footer-links">
+                            {% for c in category %}
+                            <li><a href="{% url 'category_view' c.slug %}">{{c.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <h6>Quick Links</h6>
+                        <ul class="footer-links">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Contribute</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Sitemap</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-sm-6 col-xs-12">
+                        <p class="copyright-text">
+                            Copyright &copy; 2023 All Rights Reserved by <a href="#">Akhil Krishna</a>.
+                        </p>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <ul class="social-icons">
+                            <li>
+                                <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a>
+                            </li>
+                            <li>
+                                <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/product_detail.js' %}"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"
         ></script>
+        
     </body>
 </html>

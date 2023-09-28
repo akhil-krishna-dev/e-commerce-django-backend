@@ -1,4 +1,10 @@
 {% extends 'base/base.html' %} {% block title %}Home{% endblock %} {% block content %} {% load static %}
+{% if query_set %}
+<div class="search-query text-center">
+    <span class="text-success">{{num_of_products}}</span>  search result of <span class="text-success">"{{query_set}}"</span> 
+ </div>
+ {% endif %}
+
 
 <div class="main-container">
     <div class="category-container">
@@ -9,6 +15,7 @@
     </div>
 
     <div class="products-container">
+         
         {% for p in product.object_list %}
         <a class="product" href="{{p.get_url}}">
             <div class="image-main">
@@ -19,7 +26,7 @@
                 {% endif %}
             </div>
             <div class="name">{{p.product_color_variant.product.name}} ({{p.product_color_variant.color.name}}, {{p.size.name}})</div>
-            <div class="price">Rs.{{p.price}}</div>
+            <div class="price">Rs.{{p.selling_price}}</div>
         </a>
         {% endfor %}
     </div>

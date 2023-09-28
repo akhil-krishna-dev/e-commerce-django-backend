@@ -32,5 +32,5 @@ admin.site.register(ProductColorVariant)
 
 
 class AdminProductVariant(admin.ModelAdmin):
-    list_display = ['product_color_variant','size','price','stock']
+    list_display = ['product_color_variant','orginal_price','offer','selling_price','size','stock']
 admin.site.register(ProductVariant,AdminProductVariant)
