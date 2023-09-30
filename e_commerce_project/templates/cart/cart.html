@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %} {% block title %}cart page{% endblock %} {% block content %} {% load static %}
+
+
+{% if cart %}
+
+
+<div class="cart-container">
+    <div class="cart-products-container">
+        {% for c in cart %}
+        <div class="cart-product-details">
+            <a href="{{c.product_variant.get_url}}" class="cart-image-container">
+                {% if c.product_variant.product_color_variant.image1 %}
+                <img src="{{c.product_variant.product_color_variant.image1.url}}" alt="" />
+                {% else %}
+                <img src="{{c.product_variant.product_color_variant.product.image_main.url}}" alt="" />
+                {% endif %}
+            </a>
+            <div class="cart-product-details-container">
+                  <div class="cart-product-name">{{c.product_variant.product_color_variant.product.name}} ({{c.product_variant.product_color_variant.color.name}}, {{c.product_variant.size.name}})</div>
+                  <div class="cart-product-price"> <span class="orginal-price">Rs.{{c.product_variant.orginal_price}}</span> <span class="selling-price">Rs.{{c.product_variant.selling_price}}</span> <span class="offer">{{c.product_variant.offer}}% off</span></div>
+                  <div class="product-quantity">
+                    Quantity :
+                    {% if c.quantity > 1 %}
+                     <a href="{% url 'decreament' c.product_variant.id %}" class="decreament-btn button">-</a> 
+                     {% else %}
+                     <a class="decreament-btn text-secondary border-secondary button">-</a> 
+                     {% endif %}
+                    <span class="quantity">{{c.quantity}}</span> 
+                    
+                    {% if c.quantity == 10 %}
+                    <span>quantity limit reached</span>
+                    {% else %}
+                    <a href="{% url 'increament' c.product_variant.id %}" class="increament-btn button">+</a> 
+                    {% endif %}
+
+                    <a href="{% url 'remove' c.product_variant.id %}" class="remove-btn">Remove</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="price-details-container">
+        <div class="orginal-price">
+            {% if total_items > 1 %}
+            <span>Price ({{total_items}} items)</span>
+            {% else %} 
+            <span>Price ({{total_items}} item)</span>
+            {% endif %}
+
+
+            <span>Rs.{{orginal_price}}</span> 
+        </div>
+        <div class="discount"><span>Discount</span>  <span class="text-success">-Rs.{{discount_price}}</span></div>
+        <div class="delivery-charge"><span>Delivery charge</span>  <span class="text-success">Free</span></div>
+        <hr>
+        <div class="total-price"><span>Total Amount</span>  <span class="total-amount">Rs.{{total_price}}</span></div>
+        <hr>
+        <button class="place-order-btn btn btn-warning">PLACE ORDER</button>
+    </div>
+</div>
+
+
+{% else %}
+
+<div class="no-cart">
+    <a href="{% url 'home' %}"><div>Your cart is empty shop now</div>  </a>
+</div>
+{% endif %}
+
+{% endblock %}

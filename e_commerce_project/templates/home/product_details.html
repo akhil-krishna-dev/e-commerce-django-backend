@@ -21,7 +21,7 @@
 
             <div class="related-images">
                 {% if product.product_color_variant.image1 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image1.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list  actived-image" onclick="changeImage(event)" src="{{product.product_color_variant.image1.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image2 %}
                 <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image2.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image3 %}
@@ -37,7 +37,17 @@
                 {% endif %}
             </div>
 
-         </div>
+
+               {% if in_cart %}
+               <button class="add-to-cart"><a class="text-white" href="{% url 'cart' %}">Item already in cart (view)</a> </button>
+                {% else %}
+                <button class="add-to-cart"><a class="text-white" href="{% url 'add_to_cart' product.id %}">Add to cart</a> </button>
+                {% endif %}
+                <button class="add-to-wishlist"><a class="text-white" href="">Add to wishlist</a> </button>
+
+            
+        </div>
+
         
 
 

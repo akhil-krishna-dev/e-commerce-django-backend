@@ -12,11 +12,13 @@
         <link rel="stylesheet" href="{% static 'css/registration.css' %}" />
         <link rel="stylesheet" href="{% static 'css/index.css' %}" />
         <link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+        <link rel="stylesheet" href="{% static 'css/dashbord.css' %}">
+        
     </head>
     <body>
         <nav class="navbar navbar-expand-lg p-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" href="{% url 'home' %}">Home</a>
                 <button
                     class="navbar-toggler"
                     type="button"
@@ -32,7 +34,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="#"
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'dashbord' %}"
                                 >{% if user.first_name %} 
                                 {{user.first_name.upper}}
                                 {% else %}
@@ -41,8 +43,9 @@
                                 </a
                             >
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'cart' %}">Cart</a>
                         </li>
                         {% else %}
                         <li class="nav-item">
@@ -53,10 +56,12 @@
                         </li>
 
                         {% endif %}
+                        
                     </ul>
+                    <a class="navbar-brand text-white me-5" href="{% url 'home' %}">Home</a>
                 </div>
             </div>
-            <form class="d-flex search-box" role="search">
+            <form action="{% url 'home' %}" method="get" class="d-flex search-box" role="search">
                 <input class="form-control me-2" name="search-products" type="search" placeholder="Search Products" aria-label="Search" />
                 <button class="btn btn-outline-light" type="submit">Search</button>
             </form>

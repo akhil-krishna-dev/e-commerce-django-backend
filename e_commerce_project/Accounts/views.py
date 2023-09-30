@@ -21,3 +21,9 @@ def registration(request):
                 return redirect('home')
         
     return render(request, 'accounts/registration.html', {'form':user_form})
+
+
+# user account dashbord
+
+def user_dashbord(request):
+    return render(request, 'accounts/dashbord.html')

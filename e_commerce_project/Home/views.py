@@ -1,7 +1,8 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from . models import Category,ProductVariant
 from django.core.paginator import Paginator,EmptyPage,InvalidPage
 from django.db.models import Q
+from Cart.models import Cart
 
 
 def index(request,category_slug = None):
@@ -30,6 +31,7 @@ def index(request,category_slug = None):
                     'product_color_variant__product__brand',
                     'product_color_variant__product',
                     'product_color_variant__color',
+                    'product_color_variant',
                     'size'
                     )
 
@@ -39,6 +41,7 @@ def index(request,category_slug = None):
                 'product_color_variant__product__brand',
                 'product_color_variant__product',
                 'product_color_variant__color',
+                'product_color_variant',
                 'size')
             
     num_of_products = len(products)
@@ -70,6 +73,7 @@ def index(request,category_slug = None):
 
 
 def product_detail(request, category_slug, product_slug, color, variant):
+    in_cart = None
     try:
         product = ProductVariant.objects.get(
             product_color_variant__product__category__slug = category_slug, 
@@ -108,14 +112,20 @@ def product_detail(request, category_slug, product_slug, color, variant):
             ).order_by('size')
     except Exception as psv:
         raise psv
-    
-    
-    
+    if request.user.is_authenticated:
+        try:
+            in_cart = Cart.objects.get(user=request.user, product_variant=product)
+        except:
+            in_cart = None
+    else:
+        pass
+        
     return render(request, 'home/product_details.html', {
 
         'product':product, 
         'product_color_variant':product_color_variant, 
-        'product_size_variant':product_size_variant
+        'product_size_variant':product_size_variant,
+        'in_cart':in_cart
 
         })
 
@@ -124,9 +134,6 @@ def product_detail(request, category_slug, product_slug, color, variant):
 
 
 
-# product search start >>>>>
 
-def product_search(request):
-    return render(request, 'home/search.html')
 
 

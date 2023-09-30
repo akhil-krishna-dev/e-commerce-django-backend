@@ -84,7 +84,9 @@ class ProductVariant(models.Model):
 
     def selling_price(self):
         return self.product_color_variant.product.orginal_price - self.product_color_variant.product.orginal_price//100*self.offer
-
+    
+    def discount_price(self):
+        return self.product_color_variant.product.orginal_price//100 * self.offer
 
 
     def get_url(self):
@@ -94,6 +96,10 @@ class ProductVariant(models.Model):
             self.product_color_variant.color.name, 
             self.size.name
         ])
+    
+
+    def __str__(self) -> str:
+        return self.product_color_variant.product.name +" "+ self.product_color_variant.color.name +" "+ self.size.name
 
 
 
