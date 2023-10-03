@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
         <link rel="stylesheet" href="{% static 'css/cart.css' %}">
         <link rel="stylesheet" href="{% static 'css/dashbord.css' %}">
-        
+        <link rel="stylesheet" href="{% static 'css/order-confirm.css' %}">       
     </head>
     <body>
         <nav class="navbar navbar-expand-lg p-3">
@@ -140,6 +140,8 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"
         ></script>
+        {% block script %}
+        {% endblock %}
         
     </body>
 </html>

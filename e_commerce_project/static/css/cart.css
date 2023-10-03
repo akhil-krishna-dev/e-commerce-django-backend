@@ -13,8 +13,7 @@
     background-color: white;
     padding: 25px 15px;
     box-shadow: 0 0 2px 1px #bdbdbd;
-    margin-top: 10px;  
-    height: 300px; 
+    height: 400px; 
 }
 
 .cart-image-container{
@@ -29,7 +28,7 @@
     box-shadow: 0 0 2px 1px #bdbdbd;
     background-color: white;
     padding: 25px 15px;
-    margin: 10px 0;
+    margin: 0 0 10px 0;
     display: flex;
 }
 
@@ -75,7 +74,8 @@
     width: 60%;
     background-color: rgb(14, 76, 211);
     padding: 20px 40px;
-    margin: auto;
+    margin: 80px auto 10px;
+
 }
 .no-cart a{
     text-decoration: none;
@@ -99,4 +99,47 @@
 .place-order-btn{
     width: 100%;
     margin-top: 15px;
+}
+
+.price-detail-in-cart{
+    color: gray;
+    display: flex;
+    justify-content: center;
+}
+
+.delivery-address{
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background-color: white;
+    box-shadow: 0 0 2px 1px #bdbdbd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+
+}
+.delivery-address .each-address .person-name{
+    font-weight: 500;
+}
+.delivery-address .each-address .person-name span{
+    font-weight: 400;
+}
+
+.delivery-address .each-address .delivery-address-selected{
+    font-size: 15px;
+    color: rgb(113, 113, 113);
+}
+
+.change-address-btn{
+    outline: none;
+    border-radius: 10px;
+    background-color: white;
+    border: solid 2px rgb(9, 87, 195);
+    color: rgb(9, 87, 195);
+    padding: 0px 10px;
+    height: 40px;
+
 }

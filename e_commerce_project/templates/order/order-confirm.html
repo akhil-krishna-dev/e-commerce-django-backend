@@ -1,0 +1,161 @@
+{% extends 'base/base.html' %} {% block title %}order-confirm{% endblock %} 
+{% block content %} {% load static %}
+
+
+ <div class="address-payment-container">
+
+
+    <!-- address section starts -->
+    <div class="address-form">
+        {% if order_address %}
+
+
+        <h5 class="bg-primary py-2 ps-4 mb-2 text-white" >Delivey Address</h5>
+        {% for order_address in order_address %}
+
+
+        <div class="address-container">
+
+            <input type="radio">
+            <div class="each-address">
+                <span class="address-name">{{order_address.full_name}}</span>
+                <span class="order-mobile-num">{{order_address.mobile}}</span>
+                <p>{{order_address.locality}}, 
+                    {{order_address.address}}, 
+                    {{order_address.city_district_town}},
+                    {{order_address.state}},
+                    {{order_address.landmark}}
+                </p>
+            </div>
+            <span  class="address-edit-btn" onclick="editAddress(event)" >EDIT</span>
+        </div>
+
+        <!-- address edit section -->
+        <div class="address-display-none">
+            <form class="main-form" method="post">
+                <input type="text" name="address-id" value="{{order_address.id}}" hidden="true">
+                {% csrf_token %}
+                <div class="full-name">
+                    <label for="fullname">Your name</label>
+                    <input value="{{order_address.full_name}}" id="fullname" name="yourname" type="text" required >
+                </div>
+                <div class="mobile-number">
+                    <label for="mobile">Mobile</label>
+                    <input value="{{order_address.mobile}}" id="mobile" name="phone" type="text" required >
+                </div>
+                <div class="pin">
+                    <label for="pincode">Pincode</label>
+                    <input value="{{order_address.pincode}}" id="pincode" name="pincode" type="text" required >
+                </div>
+                <div class="locality-name">
+                    <label for="locality">Locality</label>
+                    <input value="{{order_address.locality}}" id="locality" name="locality" type="text" required >
+                </div>
+                <div class="address-full">
+                    <label for="address">Address</label>
+                    <textarea  id="address" name="address" type="text" required >
+                    {{order_address.address}}
+                        </textarea>
+                </div>
+                <div class="district-city">
+                    <label for="district">City/District/Town</label>
+                    <input value="{{order_address.city_district_town}}" id="district" name="district" type="text" required >
+                </div>
+                <div class="state-name">
+                    <label for="state">State</label>
+                    <input value="{{order_address.state}}" id="state" name="state" type="text" required >
+                </div>
+                <div class="main-landmark">
+                    <label for="landmark">Landmark</label>
+                    <input value="{{order_address.landmark}}" id="landmark" name="landmark" type="text" required >
+                </div>
+                    <button type="submit">Save address</button>
+            </form> 
+        </div>
+       
+        
+        {% endfor %}
+
+
+        <!-- address edit section ends -->
+
+        
+        {% else %}
+        <h5 class="bg-primary py-2 ps-4 mb-2 text-white" >Delivey Address</h5>
+        <form class="main-form" method="post">
+            {% csrf_token %}
+            <div class="full-name">
+                <label for="fullname">Your name</label>
+                <input id="fullname" name="yourname" type="text" required >
+            </div>
+            <div class="mobile-number">
+                <label for="mobile">Mobile</label>
+                <input id="mobile" name="phone" type="text" required >
+            </div>
+            <div class="pin">
+                <label for="pincode">Pincode</label>
+                <input id="pincode" name="pincode" type="text" required >
+            </div>
+            <div class="locality-name">
+                <label for="locality">Locality</label>
+                <input id="locality" name="locality" type="text" required >
+            </div>
+            <div class="address-full">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" type="text" required >
+                    </textarea>
+            </div>
+            <div class="district-city">
+                <label for="district">City/District/Town</label>
+                <input id="district" name="district" type="text" required >
+            </div>
+            <div class="state-name">
+                <label for="state">State</label>
+                <input id="state" name="state" type="text" required >
+            </div>
+            <div class="main-landmark">
+                <label for="landmark">Landmark</label>
+                <input id="landmark" name="landmark" type="text" required >
+            </div>
+                <button type="submit">Save address</button>
+        </form>
+        {% endif %}
+        <h5 class="bg-primary py-2 ps-4 mt-4 mb-2 text-white" >Payment Options</h5>
+     </div>
+     <!-- address section ends -->
+
+
+    <!-- price detail total price starts -->
+
+        <div class="price-details-container">
+        
+            <span class="price-detail-in-cart">PRICE DETAILS</span>
+            <hr>
+            <div class="orginal-price">
+                {% if total_items > 1 %}
+                <span>Price ({{total_items}} items)</span>
+                {% else %} 
+                <span>Price ({{total_items}} item)</span>
+                {% endif %}
+    
+    
+                <span>Rs.{{orginal_price}}</span> 
+            </div>
+            <div class="discount"><span>Discount</span>  <span class="text-success">-Rs.{{discount_price}}</span></div>
+            <div class="delivery-charge"><span>Delivery charge</span>  <span class="text-success">Free</span></div>
+            <hr>
+            <div class="total-price"><span>Total Amount</span>  <span class="total-amount">Rs.{{total_price}}</span></div>
+            <hr>
+        </div>
+    
+        <!-- price details total price ends -->
+    
+    
+ </div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/order-confirm.js' %}" ></script>
+{% endblock %}

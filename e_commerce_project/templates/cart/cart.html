@@ -5,7 +5,11 @@
 
 
 <div class="cart-container">
+
+    <!-- cart product section starts -->
+
     <div class="cart-products-container">
+
         {% for c in cart %}
         <div class="cart-product-details">
             <a href="{{c.product_variant.get_url}}" class="cart-image-container">
@@ -38,10 +42,21 @@
             </div>
         </div>
         {% endfor %}
+
+
+
     </div>
 
+    <!-- cart product section ends -->
+
+
+
+    <!-- price detail total price starts -->
 
     <div class="price-details-container">
+        
+        <span class="price-detail-in-cart">PRICE DETAILS</span>
+        <hr>
         <div class="orginal-price">
             {% if total_items > 1 %}
             <span>Price ({{total_items}} items)</span>
@@ -57,8 +72,12 @@
         <hr>
         <div class="total-price"><span>Total Amount</span>  <span class="total-amount">Rs.{{total_price}}</span></div>
         <hr>
-        <button class="place-order-btn btn btn-warning">PLACE ORDER</button>
+        <a href="{% url 'order-confirm' %}"><button class="place-order-btn btn btn-warning">PLACE ORDER </button></a>
     </div>
+
+    <!-- price details total price ends -->
+
+
 </div>
 
 

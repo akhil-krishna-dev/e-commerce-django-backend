@@ -1,0 +1,110 @@
+
+.address-payment-container{
+    display: flex;
+    width: 90%;
+    margin: auto;
+
+}
+
+.address-payment-container .address-form{
+    width: 70%;
+    box-shadow: 0 0 2px 1px #bdbdbd;
+    background-color: white;
+    padding: 45px 30px;
+}
+
+.address-form .main-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.address-form .main-form div{
+    margin-bottom: 35px;
+    background-color: #efefef;
+    border: solid 1px rgb(134, 133, 133);
+    padding: 5px 10px;
+
+}
+.address-form .main-form div:hover{
+    border: solid 1px rgb(13, 100, 199);
+}
+
+.address-form .main-form div label{
+    display: block;
+    top: 5px;
+    font-size: 15px;
+}
+.address-form .main-form div input{
+    background-color: #f3f2f2;
+    border: none;
+    outline: none;
+}
+
+
+.address-form .main-form .full-name,
+.address-form .main-form .mobile-number,
+.address-form .main-form .pin,
+.address-form .main-form .locality-name,
+.address-form .main-form .district-city,
+.address-form .main-form .state-name,
+.address-form .main-form .main-landmark{
+    width: 45%;
+}
+
+.address-form .main-form .address-full textarea{
+    width: 100%;
+    height: 90px;
+    background-color: #f3f2f2;
+    border: none;
+    outline: none;
+}
+.address-form .main-form .address-full{
+    width: 100%;
+    
+}
+
+.address-form .address-container{
+    display: flex;
+    align-items: flex-start;
+    border: solid 1px rgb(184, 183, 183);
+    background-color: #f3f2f2;
+
+    padding: 15px;
+    margin-bottom: 7px;
+
+}
+
+.address-form .address-container input{
+    margin: 9px 20px 0px 0px;
+}
+
+.address-display-none{
+    display: none;
+    border: solid 1px grey;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.main-form button{
+    height: 40px;
+    padding: 0 15px;
+    margin: 10px 30px 10px 10px;
+    border: none;
+    border-radius: 2px;
+    background-color: rgb(222, 124, 44);
+    color: white;
+}
+
+.hide-address{
+    display: block;
+}
+
+.address-edit-btn{
+    cursor: pointer;
+    color: rgb(16, 89, 226);
+}
+
+.address-payment-container .price-details-container{
+    height: 330px;
+}
+
+
