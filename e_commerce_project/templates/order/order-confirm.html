@@ -5,18 +5,16 @@
  <div class="address-payment-container">
 
 
+    <div   id="my-form">
     <!-- address section starts -->
-    <div class="address-form">
+    <div class="address-form" id="delivery-address-container">
+        <h5 class="bg-primary py-2 ps-4 mb-2 text-white" >Delivey Address</h5>
         {% if order_address %}
 
-
-        <h5 class="bg-primary py-2 ps-4 mb-2 text-white" >Delivey Address</h5>
-        {% for order_address in order_address %}
-
+     {% for order_address in order_address %}
 
         <div class="address-container">
-
-            <input type="radio">
+            <input onclick="selectingAddress(event)" name="address-selection" type="radio" value="{{order_address.id}}" required >
             <div class="each-address">
                 <span class="address-name">{{order_address.full_name}}</span>
                 <span class="order-mobile-num">{{order_address.mobile}}</span>
@@ -31,8 +29,9 @@
         </div>
 
         <!-- address edit section -->
+
         <div class="address-display-none">
-            <form class="main-form" method="post">
+            <form class="main-form" method="post" action="{% url 'address_creation' %}">
                 <input type="text" name="address-id" value="{{order_address.id}}" hidden="true">
                 {% csrf_token %}
                 <div class="full-name">
@@ -41,11 +40,11 @@
                 </div>
                 <div class="mobile-number">
                     <label for="mobile">Mobile</label>
-                    <input value="{{order_address.mobile}}" id="mobile" name="phone" type="text" required >
+                    <input value="{{order_address.mobile}}" id="mobile" name="phone"  max="99999999999" type="number" required >
                 </div>
                 <div class="pin">
                     <label for="pincode">Pincode</label>
-                    <input value="{{order_address.pincode}}" id="pincode" name="pincode" type="text" required >
+                    <input value="{{order_address.pincode}}" id="pincode" name="pincode" min="100000" max="999999" type="number" required >
                 </div>
                 <div class="locality-name">
                     <label for="locality">Locality</label>
@@ -69,6 +68,8 @@
                     <label for="landmark">Landmark</label>
                     <input value="{{order_address.landmark}}" id="landmark" name="landmark" type="text" required >
                 </div>
+                <a id="create-form-back" href="{% url 'order-confirm' %}" >Back</a>
+
                     <button type="submit">Save address</button>
             </form> 
         </div>
@@ -76,52 +77,94 @@
         
         {% endfor %}
 
+        <!-- new address adding button  -->
+        <h5 class="btn btn-outline-dark mt-3" onclick="hideAddress()">Add new address</h5>
 
         <!-- address edit section ends -->
 
         
         {% else %}
-        <h5 class="bg-primary py-2 ps-4 mb-2 text-white" >Delivey Address</h5>
-        <form class="main-form" method="post">
-            {% csrf_token %}
-            <div class="full-name">
-                <label for="fullname">Your name</label>
-                <input id="fullname" name="yourname" type="text" required >
-            </div>
-            <div class="mobile-number">
-                <label for="mobile">Mobile</label>
-                <input id="mobile" name="phone" type="text" required >
-            </div>
-            <div class="pin">
-                <label for="pincode">Pincode</label>
-                <input id="pincode" name="pincode" type="text" required >
-            </div>
-            <div class="locality-name">
-                <label for="locality">Locality</label>
-                <input id="locality" name="locality" type="text" required >
-            </div>
-            <div class="address-full">
-                <label for="address">Address</label>
-                <textarea id="address" name="address" type="text" required >
-                    </textarea>
-            </div>
-            <div class="district-city">
-                <label for="district">City/District/Town</label>
-                <input id="district" name="district" type="text" required >
-            </div>
-            <div class="state-name">
-                <label for="state">State</label>
-                <input id="state" name="state" type="text" required >
-            </div>
-            <div class="main-landmark">
-                <label for="landmark">Landmark</label>
-                <input id="landmark" name="landmark" type="text" required >
-            </div>
-                <button type="submit">Save address</button>
-        </form>
-        {% endif %}
+        <h5 class="btn btn-outline-dark mt-3" onclick="hideAddress()">Add new address</h5>
+        <!-- address create section ends -->
+
+         {% endif %}
+
         <h5 class="bg-primary py-2 ps-4 mt-4 mb-2 text-white" >Payment Options</h5>
-     </div>
+        <!-- <button type="submit" class="btn btn-outline-warning" id="rzp-button1">Pay with Razorpay</button> -->
+        <!-- <button type="submit" class="btn btn-outline-primary" id="paypal-button1">{{paypal.render}}</button> -->
+
+        <form action="{% url 'razorpay-success' request.user %}" method="POST">
+             <input id="address-selection-payment" name="address-selected" value="val" type="text" hidden="true" >
+            <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="{{key}}"
+                data-amount="{{payment.amount}}" 
+                data-currency="{{payment.currency}}"
+                data-order_id="{{payment.id}}"
+                data-buttontext="Pay with Akhil"
+                data-name="Ecomerce Akhil"
+                data-description="Thank you for visit"
+                data-image="https://example.com/your_logo.jpg"
+                data-prefill.name="{request.user.first_name}"
+                data-prefill.email="{{request.user.email}}"
+                data-theme.color="#F37254"
+            ></script>
+            <input type="hidden" custom="Hidden Element" name="hidden"/>
+        </form>
+           
+    </div>
+    
+
+</div>
+
+
+        <!-- hidden address create section starts -->
+        <div class="address-form hidden-create-address">
+            <form class="main-form" method="post" action="{% url 'address_creation' %}">
+                <input type="text" name="address-id" value="create" hidden="true">
+                {% csrf_token %}
+                <div class="full-name">
+                    <label for="fullname">Your name</label>
+                    <input id="fullname" name="yourname" type="text" required >
+                </div>
+                <div class="mobile-number">
+                    <label for="address-mobile">Mobile</label>
+                    <input id="address-mobile" maxlength="10" name="phone" type="text" required >
+                </div>
+                <div class="pin">
+                    <label for="address-pincode">Pincode</label>
+                    <input id="address-pincode" maxlength="6" name="pincode" type="text" required >
+                </div>
+                <div class="locality-name">
+                    <label for="locality">Locality</label>
+                    <input id="locality" name="locality" type="text" required >
+                </div>
+                <div class="address-full">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" type="text" required >
+                        </textarea>
+                </div>
+                <div class="district-city">
+                    <label for="district">City/District/Town</label>
+                    <input id="district" name="district" type="text" required >
+                </div>
+                <div class="state-name">
+                    <label for="state">State</label>
+                    <input id="state" name="state" type="text" required >
+                </div>
+                <div class="main-landmark">
+                    <label for="landmark">Landmark</label>
+                    <input id="landmark" name="landmark" type="text" required >
+                </div>
+                <a class="" id="create-form-back" href="{% url 'order-confirm' %}" >Back</a>
+                <button type="submit">Save address</button>
+            </form>
+        </div>
+
+
+        <!-- hidden address create section ends -->
+
+
      <!-- address section ends -->
 
 
@@ -157,5 +200,8 @@
 {% endblock %}
 
 {% block script %}
+
 <script src="{% static 'js/order-confirm.js' %}" ></script>
+
+
 {% endblock %}

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Cart',
     'Wishlist',
     'Orders',
+    'paypal.standard.ipn',
     
 ]
 
@@ -152,3 +153,9 @@ INTERNAL_IPS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+KEY = 'rzp_test_L8VApKZTzn8SO7'
+SECRET = 'RzHOMAQJ9DhDZra7R2v2xyuE'
+
+PAYPAL_RECEIVER_EMAIL = 'sb-hkbaz26167133@business.example.com'
+PAYPAL_TEST = True

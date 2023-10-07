@@ -6,8 +6,9 @@
 
 }
 
+
 .address-payment-container .address-form{
-    width: 70%;
+    width: 100%;
     box-shadow: 0 0 2px 1px #bdbdbd;
     background-color: white;
     padding: 45px 30px;
@@ -84,7 +85,7 @@
     padding: 20px;
     margin-bottom: 20px;
 }
-.main-form button{
+.main-form button, .main-form span, .main-form a{
     height: 40px;
     padding: 0 15px;
     margin: 10px 30px 10px 10px;
@@ -92,6 +93,18 @@
     border-radius: 2px;
     background-color: rgb(222, 124, 44);
     color: white;
+    transition: .3s;
+}
+
+.main-form a{
+    background-color: rgb(33, 33, 33);
+    padding-top:5px;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+.main-form button:hover, .main-form span:hover{
+    box-shadow: 0 0 4px 3px #bdbdbd;
 }
 
 .hide-address{
@@ -107,4 +120,20 @@
     height: 330px;
 }
 
+.address-payment-container .hidden-create-address{
+    display: none;
+    width: 70%;
+}
 
+#my-form{
+    width: 70%;
+}
+
+.razorpay-payment-button{
+    border: none;
+    background-color: rgb(11, 94, 210);
+    color: white;
+    border-radius: 4px;
+    padding: 4px 15px;
+
+}

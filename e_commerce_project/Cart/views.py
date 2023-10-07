@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from Home.models import ProductVariant
 from .models import Cart
-from Orders.models import OrderAddress
 from django.contrib.auth.decorators import login_required
 
 
@@ -23,6 +22,7 @@ def cart(request):
             'product_variant',
             'product_variant__product_color_variant',
             'product_variant__product_color_variant__product',
+            'product_variant__product_color_variant__product__category',
             'product_variant__product_color_variant__color',
             'product_variant__size',
 

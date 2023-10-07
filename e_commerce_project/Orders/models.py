@@ -1,6 +1,6 @@
 from django.db import models
 from Accounts.models import CustomUser
-
+from Home.models import ProductVariant
 
 class OrderAddress(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -16,3 +16,45 @@ class OrderAddress(models.Model):
     
     def __str__(self):
         return self.full_name + " " + self.mobile
+
+
+
+PAYMENT_MODE_CHOICES = (
+    ('Cash On Delivey','Cash On Delivery'),
+    ('RazorPay','RazorPay'),
+
+)
+
+class Payment(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    price_paid = models.PositiveIntegerField()
+    payment_mode = models.CharField(max_length=50, choices=PAYMENT_MODE_CHOICES)
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_status = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return  self.user.email +" | Order ID : "+ self.razorpay_order_id
+
+
+STATUS_CHOICES = (
+    ('Pending','Pending'),
+    ('Packed','Packed'),
+    ('Shipped','Shipped'),
+    ('Out For Delivery','Out For Delivery'),
+    ('Delivered','Delivered')
+)
+
+class Orders(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    order_address = models.ForeignKey(OrderAddress, on_delete=models.CASCADE)
+    product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    price_was = models.PositiveIntegerField(null=False, blank=False)
+    quantiy_was = models.PositiveSmallIntegerField(default=1)
+    ordered_date = models.DateTimeField(auto_now_add=True)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+
+    def __str__(self):
+        return self.user.email +" | "+ self.product_variant.product_color_variant.product.name +" ("+self.product_variant.product_color_variant.color.name+", "+self.product_variant.size.name+")"
