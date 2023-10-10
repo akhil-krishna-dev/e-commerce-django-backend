@@ -98,8 +98,8 @@ class ProductVariant(models.Model):
         ])
     
 
-    def __str__(self) -> str:
-        return self.product_color_variant.product.name +" "+ self.product_color_variant.color.name +" "+ self.size.name
+    def __str__(self):
+        return self.product_color_variant.product.name +" ("+ self.product_color_variant.color.name +", "+ self.size.name+")"
 
 
 

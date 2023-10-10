@@ -17,6 +17,7 @@
     <div class="products-container">
          
         {% for p in product.object_list %}
+        {% if p.stock %}
         <a class="product" href="{{p.get_url}}">
             <div class="image-main">
                 {% if p.product_color_variant.image1 %}
@@ -28,6 +29,7 @@
             <div class="name">{{p.product_color_variant.product.name}} ({{p.product_color_variant.color.name}}, {{p.size.name}})</div>
             <div class="price">Rs.{{p.selling_price}}</div>
         </a>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

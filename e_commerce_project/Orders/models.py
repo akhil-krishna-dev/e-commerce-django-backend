@@ -20,7 +20,7 @@ class OrderAddress(models.Model):
 
 
 PAYMENT_MODE_CHOICES = (
-    ('Cash On Delivey','Cash On Delivery'),
+    ('Cash On Delivery','Cash On Delivery'),
     ('RazorPay','RazorPay'),
 
 )
@@ -35,7 +35,7 @@ class Payment(models.Model):
     paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return  self.user.email +" | Order ID : "+ self.razorpay_order_id
+        return  " | Payment mode : "+ self.payment_mode + " | Order ID : "+ str(self.razorpay_order_id)
 
 
 STATUS_CHOICES = (
@@ -48,12 +48,12 @@ STATUS_CHOICES = (
 
 class Orders(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    order_address = models.ForeignKey(OrderAddress, on_delete=models.CASCADE)
-    product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    order_address = models.ForeignKey(OrderAddress, on_delete=models.DO_NOTHING)
+    product_variant = models.ForeignKey(ProductVariant, on_delete=models.DO_NOTHING)
     price_was = models.PositiveIntegerField(null=False, blank=False)
     quantiy_was = models.PositiveSmallIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):

@@ -36,28 +36,30 @@ def cart(request):
     except:
         pass
 
-    return render(request, 'cart/cart.html', {
+    context =  {
         'cart':cart,
         'total_price':total_price,
         'total_quantity':total_quantity,
         'orginal_price':orginal_total,
         'discount_price':discount_price,
         'total_items':total_items,
-        })
+        }
+    return render(request, 'cart/cart.html', context)
 
 
 @login_required
 def add_to_cart(request,product_variant_id):
     product_variant = ProductVariant.objects.get(id=product_variant_id)
-
+    in_cart = Cart.objects.filter(user=request.user, product_variant=product_variant)
     try:
-        cart = Cart.objects.create(user=request.user,
-                                   product_variant=product_variant,
-                                   quantity=1,
-                                   price_while_order=product_variant.selling_price(),
-                                   offer_while_order=product_variant.offer
-                                   )
-        cart.save()
+        if not in_cart:
+            cart = Cart.objects.create(user=request.user,
+                                    product_variant=product_variant,
+                                    quantity=1,
+                                    price_while_order=product_variant.selling_price(),
+                                    offer_while_order=product_variant.offer
+                                    )
+            cart.save()
     except:
         pass 
     return redirect('cart')
@@ -95,10 +97,11 @@ def decreament_product(request,product_variant_id):
 @login_required
 def remove_product(request,product_variant_id):
     product_variant = ProductVariant.objects.get(id=product_variant_id)
-    cart = Cart.objects.get(
+    cart = Cart.objects.filter(
         user=request.user,
         product_variant = product_variant
         )
-    cart.delete()
+    if cart:
+        cart.delete()
     return redirect('cart')
 

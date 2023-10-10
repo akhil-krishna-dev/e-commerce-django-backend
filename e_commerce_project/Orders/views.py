@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from Cart.models import Cart
 from .models import OrderAddress,Payment,Orders
+from Home.models import ProductVariant
 from Accounts.models import CustomUser
 from django.conf import settings
 import razorpay
@@ -30,6 +31,8 @@ def order_confirm(request):
         'user',
         
     )
+    if not cart:
+        return redirect('home')
     total_items = len(cart)
     for c in cart:
         orginal_total += (c.quantity * c.product_variant.orginal_price())
@@ -42,15 +45,19 @@ def order_confirm(request):
     host = request.get_host()
 
 # RAZORPAY SECTION
-    receipt_uuid = uuid.uuid4()
-    razorpay_total_price = int(total_price * 100)
-    client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
-    DATA = {
-        "amount": razorpay_total_price,
-        "currency": "INR",
-        "receipt": "rec_"+str(receipt_uuid),
-    }
-    razorpay_response = client.order.create(data=DATA)
+    razorpay_response = None
+    try:
+        receipt_uuid = uuid.uuid4()
+        razorpay_total_price = int(total_price * 100)
+        client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
+        DATA = {
+            "amount": razorpay_total_price,
+            "currency": "INR",
+            "receipt": "rec_"+str(receipt_uuid),
+        }
+        razorpay_response = client.order.create(data=DATA)
+    except:
+        pass
 
 
 
@@ -143,7 +150,7 @@ def address_creation(request):
 
 @csrf_exempt
 def razorpay_payment_success(request,user):
-    total_price_paid = 0
+    total_payment = 0
     client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
     razorpay_payment_id = request.POST.get('razorpay_payment_id')
     razorpay_order_id = request.POST.get('razorpay_order_id')
@@ -163,32 +170,37 @@ def razorpay_payment_success(request,user):
         cart = Cart.objects.filter(user=user_obj)
 
         for c in cart:
-            total_price_paid += (c.quantity * c.product_variant.selling_price())
-            payment_obj = Payment.objects.create(
-                user=user_obj,
-                price_paid = total_price_paid,
-                payment_mode = 'RazorPay',
-                razorpay_order_id = razorpay_order_id,
-                razorpay_payment_status = 'Paid',
-                razorpay_payment_id = razorpay_payment_id,
-                paid = True
-            )
-            payment_obj.save()
+            total_payment += (c.quantity * c.product_variant.selling_price())
+
+        payment_obj = Payment.objects.create(
+            user=user_obj,
+            price_paid = total_payment,
+            payment_mode = 'RazorPay',
+            razorpay_order_id = razorpay_order_id,
+            razorpay_payment_status = 'Paid',
+            razorpay_payment_id = razorpay_payment_id,
+            paid = True
+        )
+        payment_obj.save()
 
 
+        for c in cart:
             order = Orders.objects.create(
                 user = user_obj,
                 order_address = OrderAddress.objects.get(id=str(order_address_id)),
                 product_variant = c.product_variant,
-                price_was = c.product_variant.selling_price(),
+                price_was = (c.quantity * c.product_variant.selling_price()),
                 quantiy_was = c.quantity,
                 payment = payment_obj
             )
             order.save()
-            c.delete()
 
-        
-        return redirect('razorpay-success', {'razor_order_id':razorpay_order_id})
+            product_variant = ProductVariant.objects.filter(id=c.product_variant.pk).update(
+                stock = c.product_variant.stock - c.quantity
+            )
+
+            c.delete()        
+        return redirect('all-orders')
     
 
     return render(request, 'payments/success_payment.html')
@@ -202,8 +214,40 @@ def paypal_payment_fail(request, prod_varian_id):
     return render(request, 'payments/failed_payment.html')
 
 
+def cash_on_delivery(request):
+    print(request.POST)
+    cart = Cart.objects.filter(user=request.user)
+    order_address_id = request.POST.get('address-selected')
+
+    payment_obj = Payment.objects.create(
+        user=request.user,
+        price_paid = 0,
+        payment_mode = 'Cash On Delivery',
+    )
+    payment_obj.save()
+
+    for c in cart:
+        order = Orders.objects.create(
+            user = request.user,
+            order_address = OrderAddress.objects.get(id=str(order_address_id)),
+            product_variant = c.product_variant,
+            price_was = (c.quantity * c.product_variant.selling_price()),
+            quantiy_was = c.quantity,
+            payment = payment_obj
+        )
+        order.save()
+
+        product_variant = ProductVariant.objects.filter(id=c.product_variant.pk).update(
+            stock = c.product_variant.stock - c.quantity
+        )
+
+        c.delete()
+    return redirect('all-orders')
+
 
 
 # all Orders section
+@login_required()
 def all_orders(request):
-    return render(request, 'order/all_orders.html')
+    orders = Orders.objects.filter(user=request.user).order_by('-ordered_date')
+    return render(request, 'order/all_orders.html',{'orders':orders})

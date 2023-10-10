@@ -8,5 +8,6 @@ urlpatterns = [
     path('paypal_payment/(?P<cart_items>\w+)',views.paypal_payment_success, name='payment-success'),
     path('paypal_payment_f/(?P<cart_items_f>\w+)',views.paypal_payment_success, name='payment-fail'),
     path('razorpay_success/(?P<user>\w+)', views.razorpay_payment_success, name='razorpay-success'),
+    path('cash-on-delivery/',views.cash_on_delivery, name='cash-on-delivery'),
     path('orders/',views.all_orders, name='all-orders'),
 ]

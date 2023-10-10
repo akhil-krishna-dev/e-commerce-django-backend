@@ -1,16 +1,36 @@
-{% extends 'base/base.html' %} {% block title %}registration{% endblock %} {% block content %} {% load static %}
+{% extends 'base/base.html' %} 
+{% block title %}registration{% endblock %} 
+{% block content %}
+<!-- {% load static %} -->
 
-<h3>User Dashbord</h3>
 
 <div class="dashbord-container">
 
     <div class="dashbord-options">
-        <div class="my-orders">Orders</div>
-        <div class="profile-details">Profile</div>
-        <div class="settings">Settings</div>
+        <div class="profile-img-details-sec">
+            <div class="prof-image">
+                <img src="" alt="">
+            </div>
+            <div class="profile-name">
+                {{request.user.email}}
+            </div>
+
+        </div>
+        <div class="profile-details menu">Profile</div>
+        <a href="{% url 'all-orders' %}"><div class="my-orders menu">Orders</div></a>
+        <div class="settings menu">Settings</div>
+        <div class="profile-logout menu">Logout</div>
+        <div class="blank menu"></div>
     </div>
 
     <div class="details-view">
+        <h1>Dashbord</h1>
+        <div class="account-details">
+          demo
+        </div>
+        <div class="dashboard-order-address">
+
+        </div>
 
     </div>
 </div>

@@ -129,11 +129,27 @@
     width: 70%;
 }
 
-.razorpay-payment-button{
-    border: none;
-    background-color: rgb(11, 94, 210);
-    color: white;
+.razorpay-payment-button, 
+.razorpay-payment-button-fake , 
+.cash-on-devilery-btn,
+.cash-on-devilery-btn-fake{
+    border: solid 1px rgb(11, 94, 210) ;
+    color: rgb(9, 80, 180);
+    width: 40%;
     border-radius: 4px;
-    padding: 4px 15px;
+    padding: 6px 15px;
+    margin-bottom: 10px;
+    transition: .4s;
 
+}
+.razorpay-payment-button:hover,
+.cash-on-devilery-btn:hover,
+.razorpay-payment-button-fake:hover,
+.cash-on-devilery-btn-fake:hover{
+    background-color: rgb(9, 80, 180);
+    color: white;
+}
+
+.payment-option{
+    background-color: grey;
 }

@@ -33,7 +33,7 @@ def index(request,category_slug = None):
                     'product_color_variant__color',
                     'product_color_variant',
                     'size'
-                    )
+                    ).order_by('stock')
 
         else:
             products = ProductVariant.objects.all().filter(product_color_variant__product__available = True).select_related(
@@ -42,7 +42,7 @@ def index(request,category_slug = None):
                 'product_color_variant__product',
                 'product_color_variant__color',
                 'product_color_variant',
-                'size')
+                'size').order_by('stock')
             
     num_of_products = len(products)
     

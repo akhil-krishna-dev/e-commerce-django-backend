@@ -7,6 +7,7 @@
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
         <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
         <link rel="stylesheet" href="{% static 'css/registration.css' %}" />
@@ -14,7 +15,9 @@
         <link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
         <link rel="stylesheet" href="{% static 'css/cart.css' %}">
         <link rel="stylesheet" href="{% static 'css/dashbord.css' %}">
-        <link rel="stylesheet" href="{% static 'css/order-confirm.css' %}">       
+        <link rel="stylesheet" href="{% static 'css/order-confirm.css' %}"> 
+        <link rel="stylesheet" href="{% static 'css/all_orders.css' %}">       
+     
     </head>
     <body>
         <nav class="navbar navbar-expand-lg p-3">
@@ -45,7 +48,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="{% url 'cart' %}">Cart</a>
+                            <a class="nav-link active text-white" aria-current="page" href="{% url 'cart' %}"><i class="bi bi-cart ms-1" style="font-size: x-large;"><kbd>{{cart_counts}}</kbd> </i>Cart</a>
                         </li>
                         {% else %}
                         <li class="nav-item">
@@ -117,7 +120,7 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <ul class="social-icons">
                             <li>
-                                <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                <a class="facebook" href="{% url 'all-orders' %}"><i class="fa fa-facebook">Orders</i></a>
                             </li>
                             <li>
                                 <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
