@@ -15,10 +15,11 @@
             <h6 class="price-was">Rs. {{order.price_was}}</h6>
             <div class="product-quantity">Quantity : {{order.quantiy_was}}</div>
             
-            <div class="order-address"><span>Address : </span>{{order.order_address.full_name}}, Mobile : {{order.order_address.mobile}}, PIN : {{order.order_address.pincode}}, {{order.order_address.address}}</div>
+            <!-- <div class="order-address"><span>Address : </span>{{order.order_address.full_name}}, Mobile : {{order.order_address.mobile}}, PIN : {{order.order_address.pincode}}, {{order.order_address.address}}</div>
             <div class="ordered-date-time">
                 {{order.ordered_date}}
-            </div>
+            </div> -->
+
             <div class="payment-status mt-2">payment mode : 
                 {{order.payment.payment_mode}}  
                 {% if order.payment.razorpay_payment_status %}
@@ -27,7 +28,7 @@
                 {% endif %}
             </div><br>
             <div class="order-status">order status : {{order.status}}</div>
-            {% if order.status != "Delivered" %}
+            <!-- {% if order.status != "Delivered" %}
             <div class="order-progress" >
                 {% if order.status == "Pending" %}
                 <div style="height: 10px; background-color: green; width: 1%;"></div>
@@ -52,7 +53,7 @@
                 <div style="height: 20px; color: green; ">Delivered</div>
                 {% endif %}
              </div>
-             {% endif %}
+             {% endif %} -->
 
         </div>
     </div>

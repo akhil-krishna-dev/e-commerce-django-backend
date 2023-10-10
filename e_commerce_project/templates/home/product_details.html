@@ -43,8 +43,13 @@
                 {% else %}
                 <button class="add-to-cart"><a class="text-white" href="{% url 'add_to_cart' product.id %}">Add to cart</a> </button>
                 {% endif %}
-                <button class="add-to-wishlist"><a class="text-white" href="">Add to wishlist</a> </button>
-
+                <input id="prod-id" type="text" value="{{product.id}}" hidden="true">
+                <input id="csrf-token" type="text" value="{{csrf_token}}" hidden="true" >
+                {% if in_wishlist %}
+                <button class="add-to-wishlist">Item allready in wishlist</button>
+                {% else  %}
+                <button id="wishlist-btn" class="add-to-wishlist">Add to wishlist</button>
+                {% endif %}
             
         </div>
 

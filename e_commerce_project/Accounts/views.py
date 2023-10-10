@@ -1,8 +1,12 @@
 from django.shortcuts import render,redirect
 from . forms import CustomUserCreationForm
+from .models import CustomUser
+from Orders.models import OrderAddress
+from Wishlist.models import Wishlist
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 def registration(request):
     user_form = CustomUserCreationForm()
@@ -24,6 +28,18 @@ def registration(request):
 
 
 # user account dashbord
-
+@login_required()
 def user_dashbord(request):
-    return render(request, 'accounts/dashbord.html')
+    custom_user = CustomUser.objects.get(id=request.user.id)
+    order_address = OrderAddress.objects.filter(user=custom_user)
+    wishlist = Wishlist.objects.filter(user=custom_user)
+    context = {
+        'user':custom_user,
+        'order_address':order_address,
+        'wishlist':wishlist
+    }
+
+    return render(request, 'accounts/dashbord.html',context)
+
+
+

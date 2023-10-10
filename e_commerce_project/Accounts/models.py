@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser,UserManager
 from django.db import models
-
+from django.urls import reverse
 
 
 
@@ -48,5 +48,7 @@ class CustomUser(AbstractUser):
 
 
     objects = CustomUserManager()
+
+
 
 

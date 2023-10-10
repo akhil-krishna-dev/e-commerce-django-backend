@@ -3,6 +3,7 @@ from . models import Category,ProductVariant
 from django.core.paginator import Paginator,EmptyPage,InvalidPage
 from django.db.models import Q
 from Cart.models import Cart
+from Wishlist.models import Wishlist
 
 
 def index(request,category_slug = None):
@@ -74,6 +75,7 @@ def index(request,category_slug = None):
 
 def product_detail(request, category_slug, product_slug, color, variant):
     in_cart = None
+    in_wishlist = None
     try:
         product = ProductVariant.objects.get(
             product_color_variant__product__category__slug = category_slug, 
@@ -117,6 +119,12 @@ def product_detail(request, category_slug, product_slug, color, variant):
             in_cart = Cart.objects.get(user=request.user, product_variant=product)
         except:
             in_cart = None
+
+        try:
+            in_wishlist = Wishlist.objects.get(user=request.user, product_variant=product)
+        except:
+            in_wishlist = None
+       
     else:
         pass
         
@@ -125,7 +133,8 @@ def product_detail(request, category_slug, product_slug, color, variant):
         'product':product, 
         'product_color_variant':product_color_variant, 
         'product_size_variant':product_size_variant,
-        'in_cart':in_cart
+        'in_cart':in_cart,
+        'in_wishlist':in_wishlist
 
         })
 

@@ -17,19 +17,40 @@
 
         </div>
         <div class="profile-details menu">Profile</div>
+        <a href="#"><div class="profile-wishlist menu">Wishlist</div></a>
         <a href="{% url 'all-orders' %}"><div class="my-orders menu">Orders</div></a>
-        <div class="settings menu">Settings</div>
-        <div class="profile-logout menu">Logout</div>
-        <div class="blank menu"></div>
+        <a href="#"><div class="settings menu">Settings</div></a>
+        <a href="#"><div class="profile-logout menu">Logout</div></a>
+        <a href="#"><div class="blank menu"></div></a>
     </div>
 
     <div class="details-view">
         <h1>Dashbord</h1>
-        <div class="account-details">
-          demo
-        </div>
-        <div class="dashboard-order-address">
 
+        <div class="account-details section">
+            <h5>Profile</h5><br>
+            {% if user.first_name %}
+            <p>{{user.first_name}} {{user.last_name}} </p>
+            {% endif %}
+            <p>{{user.email}}</p>
+        </div>
+        <div class="dashboard-order-address section">
+            <h5>Order address</h5><br>
+            {% for address in order_address %}
+            <div class="profile-address">
+                <p> {{address.full_name}}, {{address.mobile}}, {{address.pincode}}, {{address.address}} </p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="all-wishlist-products section">
+            <div class="wishlist-product-image">
+                <img src="" alt="">
+            </div>
+            <div class="wishlist-product-details">
+                <p>Product-name</p>
+                <p>amount</p>
+            </div>
         </div>
 
     </div>
