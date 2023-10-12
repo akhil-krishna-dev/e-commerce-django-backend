@@ -44,5 +44,5 @@ wishlistBtn.addEventListener('click',function(){
         console.log("json res", data);
     });
     wishlistBtn.disabled = true
-    wishlistBtn.innerText = "GO TO Wishlist"
+    wishlistBtn.innerText = "Item added to Wishlist"
 });

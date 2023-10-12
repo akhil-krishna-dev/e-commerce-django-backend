@@ -21,19 +21,19 @@
 
             <div class="related-images">
                 {% if product.product_color_variant.image1 %}
-                <div  class=" image image-parent"><img class="img-list  actived-image" onclick="changeImage(event)" src="{{product.product_color_variant.image1.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list  actived-image" onmouseover="changeImage(event)" src="{{product.product_color_variant.image1.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image2 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image2.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list" onmouseover="changeImage(event)" src="{{product.product_color_variant.image2.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image3 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image3.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list" onmouseover="changeImage(event)" src="{{product.product_color_variant.image3.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image4 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image4.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list" onmouseover="changeImage(event)" src="{{product.product_color_variant.image4.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image5 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image5.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list" onmouseover="changeImage(event)" src="{{product.product_color_variant.image5.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image6 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image6.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list" onmouseover="changeImage(event)" src="{{product.product_color_variant.image6.url}}" alt="" /></div>
                 {% endif %} {% if product.product_color_variant.image7 %}
-                <div  class=" image image-parent"><img class="img-list" onclick="changeImage(event)" src="{{product.product_color_variant.image7.url}}" alt="" /></div>
+                <div  class=" image image-parent"><img class="img-list" onmouseover="changeImage(event)" src="{{product.product_color_variant.image7.url}}" alt="" /></div>
                 {% endif %}
             </div>
 
@@ -158,4 +158,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/product_detail.js' %}"></script>
 {% endblock %}

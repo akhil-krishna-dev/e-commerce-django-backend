@@ -2,7 +2,6 @@ from django.db import models
 from Accounts.models import CustomUser
 from Home.models import ProductVariant
 
-
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)

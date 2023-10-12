@@ -1,4 +1,3 @@
-from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from Home.models import ProductVariant
 from .models import Wishlist
@@ -23,3 +22,6 @@ def add_to_wishlist(request):
 
     else:
         return JsonResponse({'status':"invalid access"},status=200)
+
+
+

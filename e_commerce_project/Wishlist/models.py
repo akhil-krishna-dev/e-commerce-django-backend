@@ -15,3 +15,5 @@ class Wishlist(models.Model):
     
     def get_url(self):
         return redirect('dashbord', args=[self.pk])
+    
+    

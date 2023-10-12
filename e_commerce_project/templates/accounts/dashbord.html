@@ -1,26 +1,19 @@
-{% extends 'base/base.html' %} 
-{% block title %}registration{% endblock %} 
-{% block content %}
+{% extends 'base/base.html' %} {% block title %}registration{% endblock %} {% block content %}
 <!-- {% load static %} -->
 
-
 <div class="dashbord-container">
-
     <div class="dashbord-options">
         <div class="profile-img-details-sec">
             <div class="prof-image">
-                <img src="" alt="">
+                <img src="" alt="" />
             </div>
-            <div class="profile-name">
-                {{request.user.email}}
-            </div>
-
+            <div class="profile-name">{{request.user.email}}</div>
         </div>
-        <div class="profile-details menu">Profile</div>
-        <a href="#"><div class="profile-wishlist menu">Wishlist</div></a>
+        <div class="profile-details menu active">Profile</div>
+        <div class="profile-wishlist menu">Wishlist</div>
         <a href="{% url 'all-orders' %}"><div class="my-orders menu">Orders</div></a>
         <a href="#"><div class="settings menu">Settings</div></a>
-        <a href="#"><div class="profile-logout menu">Logout</div></a>
+        <a href="{% url 'logout' %}"><div class="profile-logout menu">Logout</div></a>
         <a href="#"><div class="blank menu"></div></a>
     </div>
 
@@ -28,32 +21,55 @@
         <h1>Dashbord</h1>
 
         <div class="account-details section">
-            <h5>Profile</h5><br>
+            <h5>Profile</h5>
+            <br />
             {% if user.first_name %}
-            <p>{{user.first_name}} {{user.last_name}} </p>
+            <p>Fullname : {{user.first_name.upper}} {{user.last_name.upper}}</p>
             {% endif %}
-            <p>{{user.email}}</p>
+            <p>E-mail : {{user.email}}</p>
         </div>
         <div class="dashboard-order-address section">
-            <h5>Order address</h5><br>
+            <h5>Order address</h5>
+            <br />
+            {% if order_address %}
             {% for address in order_address %}
             <div class="profile-address">
-                <p> {{address.full_name}}, {{address.mobile}}, {{address.pincode}}, {{address.address}} </p>
+                <h6>Address {{forloop.counter}} :-</h6>
+                <p>{{address.full_name}}, {{address.mobile}}, {{address.pincode}}, {{address.address}}</p>
             </div>
-            {% endfor %}
-        </div>
         
-        <div class="all-wishlist-products section">
-            <div class="wishlist-product-image">
-                <img src="" alt="">
-            </div>
-            <div class="wishlist-product-details">
-                <p>Product-name</p>
-                <p>amount</p>
-            </div>
+            {% endfor %}
+            {% else %}
+            <p>You have no order address</p>
+            {% endif %}
         </div>
 
+        <div class="all-wishlist-products section">
+            <h5>Wishlist</h5><br>
+            {% if wishlist %}
+            {% for w in wishlist %}
+            <div class="wishlist-main-container">
+                <a href="{{w.product_variant.get_url}}" class="wishlist-product-image">
+                    {% if w.product_variant.product_color_variant.image1 %}
+                    <img src="{{w.product_variant.product_color_variant.image1.url}}" alt="{{w.product_variant}}" />
+                    {% else %}
+                    <img src="{{w.product_variant.image_main.url}}" alt="{{w.product_variant}}" />
+                    {% endif %}
+                </a>
+                <div class="wishlist-product-details">
+                    <p>{{w.product_variant}}</p>
+                    <p>Rs.{{w.product_variant.selling_price}} <span class="original-price">Rs.{{w.product_variant.orginal_price}}</span> <span class="offer-section">{{w.product_variant.offer}}% off</span></p> 
+                    <p>Created at : {{w.created_at}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-center">You have no wishlist items</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 
+{% endblock %} {% block script %}
+<script src="{% static 'js/dashbord.js' %}"></script>
 {% endblock %}

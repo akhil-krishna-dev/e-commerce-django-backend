@@ -70,7 +70,7 @@ def increament_product(request,product_variant_id):
     cart = Cart.objects.get(user=request.user,
                             product_variant=product_variant
                             )
-    if cart.quantity < product_variant.stock:
+    if cart.quantity < product_variant.stock and cart.quantity<10:
         cart.quantity += 1
         cart.save()
     else:
