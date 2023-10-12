@@ -28,10 +28,3 @@
     flex-direction: column;
 
 }
-.product-order-details-container .order-progress{
-    height: 10px; 
-    width: 60%; 
-    outline: solid 1px green; 
-    border-radius: 10px;
-    margin-top:10px;
-}

@@ -46,3 +46,10 @@ wishlistBtn.addEventListener('click',function(){
     wishlistBtn.disabled = true
     wishlistBtn.innerText = "Item added to Wishlist"
 });
+
+
+
+function wishiListNotLoged(){
+    alert("You are not logged in! please login to your account or create a new one");
+}
+

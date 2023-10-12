@@ -18,7 +18,10 @@ def index(request,category_slug = None):
         products = ProductVariant.objects.all().filter(Q(
             product_color_variant__product__name__icontains = query_set)|
             Q(product_color_variant__product__description__icontains=query_set)|
-            Q(product_color_variant__product__category__name__icontains = query_set))
+            Q(product_color_variant__product__category__name__icontains = query_set)|
+            Q(product_color_variant__product__brand__name__icontains = query_set)|
+            Q(product_color_variant__color__name__icontains = query_set)|
+            Q(product_color_variant__product__search_keywords__icontains = query_set))
     
     else:
 
