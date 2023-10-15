@@ -40,7 +40,9 @@
 
 }
 
-
+.image-main{
+    margin-bottom: 10px;
+}
 .image-main img{
     width: 100%;
     height: auto;

@@ -1,6 +1,8 @@
 from django.db import models
 from Accounts.models import CustomUser
 from Home.models import ProductVariant
+import uuid
+
 
 class OrderAddress(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -46,6 +48,8 @@ STATUS_CHOICES = (
     ('Delivered','Delivered')
 )
 
+
+
 class Orders(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     order_address = models.ForeignKey(OrderAddress, on_delete=models.DO_NOTHING)
@@ -53,6 +57,7 @@ class Orders(models.Model):
     price_was = models.PositiveIntegerField(null=False, blank=False)
     quantiy_was = models.PositiveSmallIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
+    order_id = models.CharField(default=uuid.uuid4, unique=True,editable=False)
     payment = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
 

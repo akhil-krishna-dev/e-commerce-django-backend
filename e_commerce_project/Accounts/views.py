@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 
 def registration(request):
     user_form = CustomUserCreationForm()
@@ -32,11 +31,14 @@ def registration(request):
 @login_required()
 def user_dashbord(request):
     custom_user = CustomUser.objects.get(id=request.user.id)
-    order_address = OrderAddress.objects.filter(user=custom_user)
-    wishlist = Wishlist.objects.filter(user=custom_user)
+    order_address = OrderAddress.objects.filter(user=custom_user).select_related('user')
+    wishlist = Wishlist.objects.filter(user=custom_user).select_related(
+        'product_variant__product_color_variant__product__category',
+        'product_variant__product_color_variant__color',
+        'product_variant__size',
+        'user'
+    )
     
-    wishlist_pages = Paginator(wishlist,10)
-
     context = {
         'user':custom_user,
         'order_address':order_address,
@@ -46,5 +48,18 @@ def user_dashbord(request):
 
     return render(request, 'accounts/dashbord.html',context)
 
+
+
+def upload_profile_pic(request):
+    
+    user = CustomUser.objects.get(id=request.user.id)
+    if request.method == 'POST' :
+        picture = request.FILES.get('profile-pic')
+        user.profile_image.delete()
+        user.profile_image = picture
+        user.save()
+        
+        
+    return redirect('dashbord')
 
 

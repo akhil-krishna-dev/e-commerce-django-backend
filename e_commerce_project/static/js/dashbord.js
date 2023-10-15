@@ -26,4 +26,24 @@ profileBtn.addEventListener('click',function(){
 
 
 
+// profile pic form hide and show
+
+let form = document.getElementsByClassName('profile-upload')[0]
+let hide_btn = document.getElementsByClassName('form-hide-btn')[0]
+
+hide_btn.addEventListener('click',function(){
+    console.log(form.hidden)
+    if (form.hidden === false){
+        form.hidden =true
+        hide_btn.value = "change picture"
+    }else{
+        form.hidden =false
+        hide_btn.value = "cancel"
+    }
+})
+
+
+
+
+
 

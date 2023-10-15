@@ -10,4 +10,5 @@ urlpatterns = [
     path('razorpay_success/(?P<user>\w+)', views.razorpay_payment_success, name='razorpay-success'),
     path('cash-on-delivery/',views.cash_on_delivery, name='cash-on-delivery'),
     path('orders/',views.all_orders, name='all-orders'),
+    path('order-details/<str:order_id>/',views.order_detail, name='order-details'),
 ]

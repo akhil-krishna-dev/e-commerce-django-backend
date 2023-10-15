@@ -1,12 +1,21 @@
 {% extends 'base/base.html' %} {% block title %}registration{% endblock %} {% block content %}
-<!-- {% load static %} -->
+{% load static %}
 
 <div class="dashbord-container">
     <div class="dashbord-options">
         <div class="profile-img-details-sec">
             <div class="prof-image">
-                <img src="" alt="" />
+                {% if user.profile_image %}
+                <img src="{{user.profile_image.url}}" alt="{{request.user.email}}" />
+                {% endif %}
             </div>
+            <form hidden="true" action="{% url 'profile-pic-upload' %}"  method="post" enctype="multipart/form-data"  class="profile-upload">
+                {% csrf_token %}
+                <input class="form-control" type="file" name="profile-pic" required >
+                <input class="upload-img form-control" type="submit" value="upload">
+            </form>
+            <input class="form-hide-btn form-control form-control-sm" type="submit" value="change picture">
+            
             <div class="profile-name">{{request.user.email}}</div>
         </div>
         <div class="profile-details menu active">Profile</div>
@@ -53,7 +62,7 @@
                     {% if w.product_variant.product_color_variant.image1 %}
                     <img src="{{w.product_variant.product_color_variant.image1.url}}" alt="{{w.product_variant}}" />
                     {% else %}
-                    <img src="{{w.product_variant.image_main.url}}" alt="{{w.product_variant}}" />
+                    <img src="{{w.product_variant.product_color_variant.product.image_main.url}}" alt="{{w.product_variant}}" />
                     {% endif %}
                 </a>
                 <div class="wishlist-product-details">

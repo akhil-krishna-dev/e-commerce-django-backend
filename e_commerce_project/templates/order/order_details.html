@@ -1,4 +1,199 @@
 {% extends 'base/base.html' %} {% block title %}orders{% endblock %} 
 {% block content %} {% load static %}
 
+
+<div class="order-details-container">
+    <div class="order-delivery-address">
+        <h5>Delivery Address</h5><br>
+        <div class="address">
+          <h6>{{order.order_address.full_name}}</h6>
+          <div class="full-address">
+            {{order.order_address.address}},             
+            {{order.order_address.landmark}}, <br>
+            {{order.order_address.state}},
+            {{order.order_address.city_district_town}}, {{order.order_address.locality}}-{{order.order_address.pincode}}
+          </div><br>
+          <h6>Phone number</h6>
+          <div class="number">{{order.order_address.mobile}}</div>
+        </div>
+    </div>
+
+    <div class="order-product-summary">
+        <a href="{{order.product_variant.get_url}}" class="product-image">
+            {% if order.product_variant.product_color_variant.image1 %}
+            <img src="{{order.product_variant.product_color_variant.image1.url}}" alt="order.order_id">
+            {% else %}
+            <img src="{{order.product_variant.product_color_variant.product.image_main.url}}" alt="order.order_id">
+            {% endif %}
+        </a>
+        <div class="order-status">
+            <h6>{{order.product_variant}}</h6>
+            <div class="order-product-price">
+                Rs.{{order.price_was}}
+            </div> <br>
+            <div class="order-product-quantity">
+                Quantity : {{order.quantiy_was}}
+            </div><br>
+            <div class="order-id">
+                Order ID : {{order.order_id}}
+            </div> <br>
+            <div class="payment-type">
+                Payment type : {{order.payment.payment_mode}}
+            </div><br>
+            <div class="status">
+                Status : <span>{{order.status}}</span> 
+            </div>
+
+        </div> 
+        <div class="order-progress">
+
+
+            {% if order.status == 'Pending' %}
+            <!-- pending -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Pending</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: rgb(160, 157, 157); margin-right: -5px;">
+                <div style="width: 0%; height: 100%; background-color: rgb(160, 157, 157);"></div>
+            </div>
+            <!-- packed -->
+            <div style="border-radius: 50%; background-color: rgb(160, 157, 157); height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div  class="status-info">Packed</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: rgb(160, 157, 157); margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: rgb(160, 157, 157)"></div>
+            </div>
+            <!-- shipped -->
+            <div style="border-radius: 50%; background-color: rgb(160, 157, 157); height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div class="status-info">Shipped</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: rgb(160, 157, 157); margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: rgb(160, 157, 157)"></div>
+            </div>
+            <!-- out for delivery -->
+            <div style="border-radius: 50%; background-color: rgb(160, 157, 157); height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div class="status-info">Out for Delivery</div>
+            </div>
+            {% endif %}
+
+
+            {% if order.status == 'Packed' %}
+            <!-- pending -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Pending</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 0%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Packed</div>
+            </div>
+            <!-- packed -->
+            <div style="width: 33%; height: 7px; background-color: rgb(160, 157, 157); margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: rgb(160, 157, 157)"></div>
+            </div>
+            <!-- shipped -->
+            <div style="border-radius: 50%; background-color: rgb(160, 157, 157); height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div class="status-info">Delivered</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: rgb(160, 157, 157); margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: rgb(160, 157, 157)"></div>
+            </div>
+            <!-- out for delivery -->
+            <div style="border-radius: 50%; background-color: rgb(160, 157, 157); height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div class="status-info">Out for Delivery</div>
+            </div>
+            {% endif %}
+
+
+            {% if order.status == 'Shipped' %}
+            <!-- pending -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Pending</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 0%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Packed</div>
+            </div>
+            <!-- packed -->
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">shipped</div>
+            </div>
+            <!-- shipped -->
+            <div style="width: 33%; height: 7px; background-color: rgb(160, 157, 157); margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: rgb(160, 157, 157)"></div>
+            </div>
+            <!-- out for delivery -->
+            <div style="border-radius: 50%; background-color: rgb(160, 157, 157); height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div class="status-info">Out for Delivery</div>
+            </div>
+            {% endif %}
+
+
+            {% if order.status == 'Out For Delivery' %}
+            <!-- pending -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Pending</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 0%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Packed</div>
+            </div>
+            <!-- packed -->
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Shipped</div>
+            </div>
+            <!-- shipped -->
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: green;"></div>
+            </div>
+            <!-- out for delivery -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Out for Delivery</div>
+            </div>
+            {% endif %}
+
+            {% if order.status == 'Delivered' %}
+            <!-- pending -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Pending</div>
+            </div>
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 0%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Packed</div>
+            </div>
+            <!-- packed -->
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: green;"></div>
+            </div>
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Shipped</div>
+            </div>
+            <!-- shipped -->
+            <div style="width: 33%; height: 7px; background-color: green; margin-right: -5px;">
+                <div style="width: 50%; height: 100%; background-color: green;"></div>
+            </div>
+            <!-- out for delivery -->
+            <div style="border-radius: 50%; background-color: green; height: 15px; width: 15px; margin-right: -5px; z-index: 3;">
+                <div style="color: green;" class="status-info">Delivered</div>
+            </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}

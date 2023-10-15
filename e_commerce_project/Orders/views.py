@@ -215,7 +215,7 @@ def paypal_payment_fail(request, prod_varian_id):
 
 
 def cash_on_delivery(request):
-    print(request.POST)
+    
     cart = Cart.objects.filter(user=request.user)
     order_address_id = request.POST.get('address-selected')
 
@@ -236,6 +236,9 @@ def cash_on_delivery(request):
             payment = payment_obj
         )
         order.save()
+        order_id_uuid = "akhil_"+str(order.order_id ) 
+        order.order_id = order_id_uuid
+        order.save()
 
         product_variant = ProductVariant.objects.filter(id=c.product_variant.pk).update(
             stock = c.product_variant.stock - c.quantity
@@ -250,4 +253,19 @@ def cash_on_delivery(request):
 @login_required()
 def all_orders(request):
     orders = Orders.objects.filter(user=request.user).order_by('-ordered_date')
-    return render(request, 'order/all_orders.html',{'orders':orders})
+    context = {
+        'orders':orders
+        }
+    return render(request, 'order/all_orders.html',context)
+
+
+def order_detail(request,order_id):
+    order = Orders.objects.get(
+        user=request.user,
+        order_id=order_id
+    )
+
+    context = {
+        'order':order
+    }
+    return render(request, 'order/order_details.html', context)
