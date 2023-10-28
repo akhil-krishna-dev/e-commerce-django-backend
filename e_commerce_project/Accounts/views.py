@@ -58,8 +58,7 @@ def upload_profile_pic(request):
         user.profile_image.delete()
         user.profile_image = picture
         user.save()
-        
-        
+             
     return redirect('dashbord')
 
 

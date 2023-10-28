@@ -76,7 +76,7 @@ def index(request,category_slug = None):
 
 
 
-def product_detail(request, category_slug, product_slug, color, variant):
+def product_detail(request, category_slug, product_slug=None, color=None, variant=None):
     in_cart = None
     in_wishlist = None
     try:

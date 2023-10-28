@@ -194,6 +194,9 @@ def razorpay_payment_success(request,user):
                 payment = payment_obj
             )
             order.save()
+            order_id_uuid = "akhil_"+ str(order.order_id)
+            order.order_id = order_id_uuid
+            order.save()
 
             product_variant = ProductVariant.objects.filter(id=c.product_variant.pk).update(
                 stock = c.product_variant.stock - c.quantity

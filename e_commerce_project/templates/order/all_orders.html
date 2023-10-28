@@ -16,7 +16,6 @@
             <div class="product-name">{{order.product_variant}}</div>
             <h6 class="price-was">Rs. {{order.price_was}}</h6>
             <div class="product-quantity">Quantity : {{order.quantiy_was}}</div>
-            <div class="order-id-list">{{order.order_id}}</div>
             <div class="payment-status mt-2">payment mode : 
                 {{order.payment.payment_mode}}  
                 {% if order.payment.razorpay_payment_status %}

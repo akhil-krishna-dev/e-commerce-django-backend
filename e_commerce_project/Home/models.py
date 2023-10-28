@@ -67,8 +67,11 @@ class ProductColorVariant(models.Model):
 
 
     def __str__(self):
-        return self.product.name + " " + self.color.name
-
+        if self.color == None:
+            return self.product.name
+        else:
+            return self.product.name + " " + self.color.name
+    
 
 
 class ProductVariant(models.Model):
@@ -96,10 +99,15 @@ class ProductVariant(models.Model):
             self.product_color_variant.color.name, 
             self.size.name
         ])
+        
     
 
     def __str__(self):
-        return self.product_color_variant.product.name +" ("+ self.product_color_variant.color.name +", "+ self.size.name+")"
+        if self.product_color_variant.color == None:
+            return self.product_color_variant.product.name +" ("+  self.size.name+")"
+        else:
+            return self.product_color_variant.product.name +" ("+ self.product_color_variant.color.name +", "+ self.size.name+")"
+            
 
 
 

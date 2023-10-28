@@ -65,7 +65,10 @@
 
         <div class="details-container">
             <h5 class="product-name">
-                {{product.product_color_variant.product.name}} ({{product.product_color_variant.color.name}},
+                {{product.product_color_variant.product.name}} (
+                    {% if product.product_color_variant.color.name != "no-color" %}
+                    {{product.product_color_variant.color.name}},
+                    {% endif %}
                 {{product.size.name}})
             </h5>
 
@@ -88,10 +91,11 @@
 
             
 
-
+            {% if product.product_color_variant.color.name != "no-color" %}
             <div class="select-color">
                 <h6>Select color : </h6>
                 {% for pvc in product_color_variant %}
+                 
                  {% if pvc.product_color_variant.image1 %} 
                     {% if pvc.product_color_variant.color.name == product.product_color_variant.color.name %}
                 <a href="{{pvc.get_url}}" id="actived-color" class="color">
@@ -113,7 +117,8 @@
                     </div>
                     <div class="color-name">{{pvc.product_color_variant.color.name}}</div>
                 </a>
-                {% endif %} 
+                {% endif %}
+                
                 {% else %} 
                 {% if pvc.product_color_variant.color.name == product.product_color_variant.color.name %}
                 <a href="{{pvc.get_url}}" id="actived-color" class="color">
@@ -139,6 +144,10 @@
                 {% endif %}
                 {% endfor %}
             </div>
+            {% endif %}
+        
+
+
             <div class="select-size">
                 <h6>Select size : </h6>
 
