@@ -1,11 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 from .serializers import OrderSerializer,OrderAddressSerializer
 from .models import Orders,OrderAddress
 
 
 class OrderView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
     serializer_class = OrderSerializer
 
     def get_queryset(self):
@@ -16,6 +18,7 @@ class OrderView(viewsets.ModelViewSet):
 
 class OrderAddressView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
     serializer_class = OrderAddressSerializer
     
     def get_queryset(self):

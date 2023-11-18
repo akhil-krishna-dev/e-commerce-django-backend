@@ -33,9 +33,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.save()
         return validated_data
 
-
-
-
         
 
 

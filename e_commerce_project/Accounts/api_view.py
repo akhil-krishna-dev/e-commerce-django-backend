@@ -9,14 +9,15 @@ from django.contrib.auth import authenticate,login,logout
 
 
 class UserProfileView(APIView):
-    permission_classes = [IsAuthenticated,]
-    authentication_classes = [SessionAuthentication,]
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
 
     def get(self, request):
-        
-        serializer = serializers.UserProfileSerializer(request.user)
-        return Response(serializer.data, status = status.HTTP_200_OK)
-
+        if request.user.is_authenticated:        
+            serializer = serializers.UserProfileSerializer(request.user)
+            return Response(data=serializer.data, status = status.HTTP_200_OK)
+        else:
+            return Response(data={'message':'login required for shopping'})
 
 
 class UserRegisterView(generics.CreateAPIView):
@@ -42,9 +43,6 @@ class UserLoginView(APIView):
             
             if CustomUser.objects.filter(email=email).exists():
                 user = authenticate(request, email=email, password=password)
-                user_filter = CustomUser.objects.filter(email=email)
-                print("user ",user)
-                print("user filter ",user_filter)
                 if user:
                     login(request, user)
 
@@ -63,6 +61,8 @@ class UserLoginView(APIView):
 
 
 class UserLogOut(APIView):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
     def get(self, request):
         logout(request)
         data = {
