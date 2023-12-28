@@ -2,7 +2,6 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.authentication import SessionAuthentication
 from .models import Cart
@@ -30,6 +29,13 @@ class CartApiView(ListAPIView):
                     return Response(data={"incart":True})
                 else:
                     return Response(data={"incart":False})
+                
+    @api_view(['GET'])
+    def cart_count(request):
+        user = request.user
+        if user.is_authenticated:
+            cart = len(Cart.objects.filter(user=user))
+            return Response(data=cart) 
 
 
 class AddCartApiView(ModelViewSet):

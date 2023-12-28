@@ -31,4 +31,5 @@ urlpatterns = [
     path('cart/decreament-qty/',decreament_cart, name='decreament-qty'),
     path('cart/delete-cart/',delete_cart, name='delete-cart'),
     path('wishlist/delete/',delete_wishlist, name='wishlist-delete'),
+    path('cart/count/',CartApiView.cart_count, name='cart-count'),
 ]
