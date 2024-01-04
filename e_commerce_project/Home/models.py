@@ -83,13 +83,13 @@ class ProductVariant(models.Model):
     
     
     def orginal_price(self):
-        return self.product_color_variant.product.orginal_price
+        return self.price
 
     def selling_price(self):
-        return self.product_color_variant.product.orginal_price - self.product_color_variant.product.orginal_price//100*self.offer
+        return self.price - self.price//100*self.offer
     
     def discount_price(self):
-        return self.product_color_variant.product.orginal_price//100 * self.offer
+        return self.price//100 * self.offer
 
 
     def get_url(self):

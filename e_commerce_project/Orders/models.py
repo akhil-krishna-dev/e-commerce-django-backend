@@ -57,7 +57,7 @@ class Orders(models.Model):
     price_was = models.PositiveIntegerField(null=False, blank=False)
     quantiy_was = models.PositiveSmallIntegerField(default=1)
     ordered_date = models.DateTimeField(auto_now_add=True)
-    order_id = models.CharField(default=uuid.uuid4, unique=True,editable=False)
+    order_id = models.CharField(max_length=150, default=uuid.uuid4, unique=True,editable=False)
     payment = models.ForeignKey(Payment, on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
 

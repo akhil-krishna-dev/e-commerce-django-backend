@@ -38,7 +38,7 @@ def order_confirm(request):
         orginal_total += (c.quantity * c.product_variant.orginal_price())
         discount_price += (c.quantity * c.product_variant.discount_price())
         total_price += (c.quantity * c.product_variant.selling_price())
-        item_name += c.product_variant.product_color_variant.product.name
+        item_name += c.product_variant.product_color_variant.product.name+"("+c.product_variant.product_color_variant.color.name+", "+c.product_variant.size.name+")"+", "
     
 
     
@@ -56,6 +56,7 @@ def order_confirm(request):
             "receipt": "rec_"+str(receipt_uuid),
         }
         razorpay_response = client.order.create(data=DATA)
+        print(razorpay_response)
     except:
         pass
 
@@ -94,6 +95,7 @@ def order_confirm(request):
         'paypal':paypal_payment,
         'key':settings.KEY
     }
+    print(item_name)
     
     return render(request, 'order/order-confirm.html', context)
 
