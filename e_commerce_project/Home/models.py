@@ -1,7 +1,8 @@
+from collections.abc import Iterable
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator
-
+from django.core.exceptions import ValidationError
 
 
 class Brand(models.Model):
@@ -107,8 +108,18 @@ class ProductVariant(models.Model):
             return self.product_color_variant.product.name +" ("+  self.size.name+")"
         else:
             return self.product_color_variant.product.name +" ("+ self.product_color_variant.color.name +", "+ self.size.name+")"
-            
 
 
+    def clean(self):      
+        product = ProductVariant.objects.filter(product_color_variant__color__id=self.product_color_variant.color.pk,
+                                                size__id=self.size.pk
+                                                ).first()
+        print(self)
+        
+        if product:
+            raise ValidationError('You already added this field with '+ str(product.product_color_variant.color.name)+" and "+str(product.size.name))
+        
 
+
+    
     
