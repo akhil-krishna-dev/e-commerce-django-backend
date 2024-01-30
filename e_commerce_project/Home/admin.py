@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Category,Brand,Product,Colors,Size,ProductColorVariant,ProductVariant
+from . models import Category,Brand,Product,Colors,Size,ProductColorVariant,ProductVariant,ProductDiscription
 
 
 
@@ -32,5 +32,11 @@ admin.site.register(ProductColorVariant)
 
 
 class AdminProductVariant(admin.ModelAdmin):
-    list_display = ['product_color_variant','id','price','offer','selling_price','size','stock']
+    list_display = ['product_color_variant','size','price','offer','selling_price','stock']
 admin.site.register(ProductVariant,AdminProductVariant)
+
+
+
+class AdminProductDiscription(admin.ModelAdmin):
+    list_display = ['product','discription_title']
+admin.site.register(ProductDiscription,AdminProductDiscription)

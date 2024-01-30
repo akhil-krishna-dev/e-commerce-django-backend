@@ -39,6 +39,11 @@ class Product(models.Model):
         return self.name
        
 
+class ProductDiscription(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product/discription/images', blank=True, null=True)
+    discription_title = models.CharField(max_length=150, blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
 
 
 
@@ -114,7 +119,6 @@ class ProductVariant(models.Model):
         product = ProductVariant.objects.filter(product_color_variant__color__id=self.product_color_variant.color.pk,
                                                 size__id=self.size.pk
                                                 ).first()
-        print(self)
         
         if product:
             raise ValidationError('You already added this field with '+ str(product.product_color_variant.color.name)+" and "+str(product.size.name))
