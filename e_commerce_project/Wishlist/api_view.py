@@ -4,14 +4,12 @@ from rest_framework.generics import CreateAPIView,ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
-from rest_framework.authentication import SessionAuthentication
 from Home.models import ProductVariant
 
 
 class WishlistView(ListAPIView):
     serializer_class = WishlistSerializer
     permission_classes = [IsAuthenticated,]
-    authentication_classes = (SessionAuthentication,)
 
     def get_queryset(self):
         user = self.request.user
@@ -34,7 +32,6 @@ class WishlistView(ListAPIView):
 
         
 class AddToWishlistView(CreateAPIView):
-    authentication_classes = (SessionAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     def create(self, validated_data):

@@ -1,8 +1,10 @@
-from collections.abc import Iterable
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Brand(models.Model):
@@ -116,14 +118,21 @@ class ProductVariant(models.Model):
 
 
     def clean(self):      
-        product = ProductVariant.objects.filter(product_color_variant__color__id=self.product_color_variant.color.pk,
-                                                size__id=self.size.pk
-                                                ).first()
-        
-        if product:
+        product = ProductVariant.objects.filter(
+            product_color_variant__color__id=self.product_color_variant.color.pk,
+            size__id=self.size.pk
+        ).first()
+
+
+        if product and not self.pk:
             raise ValidationError('You already added this field with '+ str(product.product_color_variant.color.name)+" and "+str(product.size.name))
         
 
 
-    
+
+
+class ProductReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    review = models.TextField()
     

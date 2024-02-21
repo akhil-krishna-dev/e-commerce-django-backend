@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import datetime
 import os
 from pathlib import Path
 
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     'Orders',
     'paypal.standard.ipn',
     'rest_framework',
+    'rest_framework_simplejwt',
+     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     
 ]
@@ -128,10 +131,10 @@ CORS_ALLOWED_ORIGINS = [
 "http://127.0.0.1:3000",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-"http://localhost:3000",
-"http://127.0.0.1:3000",
-]
+# CSRF_TRUSTED_ORIGINS = [
+# "http://localhost:3000",
+# "http://127.0.0.1:3000",
+# ]
 
 
 # CORS_ORIGIN_WHITELIST = (
@@ -141,17 +144,32 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.BasicAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
-
+SIMPLE_JWT = {
+     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
+     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=6),
+     'ROTATE_REFRESH_TOKENS': True,
+     'BLACKLIST_AFTER_ROTATION': True
+}
 
 # CSRF_COOKIE_NAME = 'csrftoken'
 # CSRF_HEADER_NAME = 'X-CSRFToken'
@@ -188,6 +206,13 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'aggilagu@gmail.com'
+EMAIL_HOST_PASSWORD = 'yxfyxrjcjfennwij'
 
 
 

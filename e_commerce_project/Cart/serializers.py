@@ -25,10 +25,8 @@ class AddCartSerializer(serializers.ModelSerializer):
         return data
         
     def create(self, validated_data):
-
         user = self.context['request'].user
         product_variant = ProductVariant.objects.get(id=validated_data['product_variant'].id)
-
         cart = Cart.objects.filter(user=user,product_variant=validated_data['product_variant'])
         if cart:
             raise serializers.ValidationError("Product already in cart")
