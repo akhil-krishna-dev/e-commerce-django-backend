@@ -4,7 +4,7 @@
 
 <div class="order-details-container">
     <div class="order-delivery-address">
-        <h5>Delivery Address</h5><br>
+        <h5 id='delivery-addres-websocket'>Delivery Address</h5><br>
         <div class="address">
           <h6>{{order.order_address.full_name}}</h6>
           <div class="full-address">
@@ -17,7 +17,7 @@
           <div class="number">{{order.order_address.mobile}}</div>
         </div>
     </div>
-
+    <div id='user_id' hidden='true'>{{request.user.id}}</div>
     <div class="order-product-summary">
         <a href="{{order.product_variant.get_url}}" class="product-image">
             {% if order.product_variant.product_color_variant.image1 %}
@@ -40,8 +40,8 @@
             <div class="payment-type">
                 Payment type : {{order.payment.payment_mode}}
             </div><br>
-            <div class="status">
-                Status : <span>{{order.status}}</span> 
+            <div  class="status">
+                Status : <span id='status-element'>{{order.status}}</span> 
             </div>
 
         </div> 
@@ -195,5 +195,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block script %}
+<script src="{% static 'js/order_details.js' %}"></script>
 {% endblock %}

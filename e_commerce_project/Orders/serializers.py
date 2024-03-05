@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from .models import Orders,OrderAddress,Payment
 from Cart.models import Cart
 from Home.models import ProductVariant
@@ -6,11 +7,22 @@ from django.db import transaction
 from rest_framework.decorators import api_view
 
 
+User = get_user_model()
+
+
 class OrderSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField()
     class Meta:
         model = Orders
         fields = '__all__'
         depth = 4
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        user_id = instance.user.id
+        data.pop('user',None)
+        instance.user_id = user_id
+        return data
 
 
 class OrderAddressSerializer(serializers.ModelSerializer):

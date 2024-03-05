@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
 
@@ -117,22 +118,27 @@ class ProductVariant(models.Model):
             return self.product_color_variant.product.name +" ("+ self.product_color_variant.color.name +", "+ self.size.name+")"
 
 
-    def clean(self):      
-        product = ProductVariant.objects.filter(
-            product_color_variant__color__id=self.product_color_variant.color.pk,
-            size__id=self.size.pk
-        ).first()
-
+    def clean(self): 
+        product = None
+        try:     
+            product = ProductVariant.objects.filter(
+                product_color_variant__color__id=self.product_color_variant.color.pk,
+                size__id=self.size.pk
+            ).first()
+        except:
+           pass
 
         if product and not self.pk:
             raise ValidationError('You already added this field with '+ str(product.product_color_variant.color.name)+" and "+str(product.size.name))
+
         
 
 
 
 
-class ProductReview(models.Model):
+class ProductReviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     review = models.TextField()
+    date = models.DateField(auto_now_add =True)
     

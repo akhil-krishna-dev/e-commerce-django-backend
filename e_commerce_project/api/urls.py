@@ -1,6 +1,6 @@
 from django.urls import path,include
 from rest_framework import routers
-from Home.api_views import ProductVariantView,CategoryView
+from Home.api_views import *
 from Wishlist.api_view import WishlistView,AddToWishlistView,delete_wishlist
 from Orders.api_views import *
 from Accounts.api_view import (UserProfileView,
@@ -23,11 +23,13 @@ router.register(r'categories',CategoryView, 'category')
 router.register(r'orders',OrderView, 'order')
 router.register(r'order-address',OrderAddressView, 'user-address')
 router.register(r'cart/add-cart',AddCartApiView,'added-cart')
+router.register(r'product/reviews',ProductReviewView, 'review')
 
 urlpatterns = router.urls
 
 urlpatterns = [
     path('',include(router.urls)),
+    path('product/description/', ProductDescriptionView.as_view(), name='product-description'),
     path('user/profile/',UserProfileView.as_view(), name='user-profile'),
     path('user/registration/',UserRegisterView.as_view(), name='user-register'),
     path('user/logout/',UserLogOut.as_view(), name='user-logout'),
@@ -50,4 +52,5 @@ urlpatterns = [
     path('user/password-forgot/', UserPasswordForgotView.as_view(),name='forgot-password'),
     path('user/password-reset/',PasswordResetView.as_view(), name='reset-password'),
     path('user/activate-email/<str:uidb64>/<str:token>/', EmailVerificationView.as_view(), name='email-verify'),
+    path('product/reveiw-submit/', product_review_save, name='reveiw-save'),
 ]

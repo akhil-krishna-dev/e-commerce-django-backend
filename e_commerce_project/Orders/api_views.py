@@ -16,8 +16,18 @@ class OrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
+
+        if self.request.query_params.get('order_id'):
+            order_id = self.request.query_params.get('order_id')
+            order = Orders.objects.get(id=order_id)
+            order.status = "Cancelled"
+            order.save()
+            order_list = []
+            order_list.append(order)
+            return order_list
         user = self.request.user
-        return Orders.objects.filter(user=user)
+
+        return Orders.objects.filter(user=user).order_by('-ordered_date')
 
 
 

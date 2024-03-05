@@ -2,6 +2,10 @@ from django.db import models
 from Accounts.models import CustomUser
 from Home.models import ProductVariant
 import uuid
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 class OrderAddress(models.Model):
@@ -41,6 +45,7 @@ class Payment(models.Model):
 
 
 STATUS_CHOICES = (
+    ('Cancelled','Cancelled'),
     ('Pending','Pending'),
     ('Packed','Packed'),
     ('Shipped','Shipped'),
@@ -63,3 +68,22 @@ class Orders(models.Model):
 
     def __str__(self):
         return self.user.email +" | "+ self.product_variant.product_color_variant.product.name +" ("+self.product_variant.product_color_variant.color.name+", "+self.product_variant.size.name+")"
+
+
+@receiver(post_save, sender=Orders)
+def order_model_status(sender, instance, create=None, **kwrgs):
+
+    if create:
+        print(instance)
+    else:
+        print("Order updated:", instance.user.id)
+        group_name = f"order_updates_{instance.user.id}"
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            group_name,  
+            {
+                "type": "send_update_message",
+                "message": instance.status
+            }
+        )
+

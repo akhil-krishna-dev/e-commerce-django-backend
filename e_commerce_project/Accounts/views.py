@@ -62,3 +62,4 @@ def upload_profile_pic(request):
     return redirect('dashbord')
 
 
+

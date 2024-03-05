@@ -33,7 +33,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
     'paypal.standard.ipn',
     'rest_framework',
     'rest_framework_simplejwt',
-     'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     
 ]
@@ -64,10 +65,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'Accounts.middleware.RedirectAuthenticatedUserMiddleware',
     
 ]
 
+
 ROOT_URLCONF = 'e_commerce_project.urls'
+
 
 TEMPLATES = [
     {
@@ -87,6 +91,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'e_commerce_project.wsgi.application'
+ASGI_APPLICATION = 'e_commerce_project.asgi.application'
 
 
 # Database
@@ -101,6 +106,12 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'PORT': '5432',
     }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
 }
 
 # Password validation
@@ -144,16 +155,6 @@ CORS_ALLOWED_ORIGINS = [
 
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#     ],
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAuthenticated',
-#     ],
-# }
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -162,7 +163,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
         'rest_framework.permissions.IsAuthenticated',
     ],
+
+    'DEFAULT_PAGINATION_CLASS': 'Home.pagination.CustomPagination',
 }
+
+
 
 SIMPLE_JWT = {
      'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
