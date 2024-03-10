@@ -18,6 +18,17 @@ class ProductVariantView(viewsets.ModelViewSet):
     serializer_class = ProductVariantSerializer
     pagination_class = CustomPagination
 
+    def get_serializer_context(self):
+        user = self.request.user
+        wishlist = None
+        if user.is_authenticated:
+            wishlist = Wishlist.objects.filter(user=user)
+        context = super().get_serializer_context()
+        context['request_user'] = user
+        context['wishlist'] = wishlist
+        return context
+
+
     def get_queryset(self):
         product_variants = ProductVariant.objects.all().order_by('stock')
         filtered_products = list(filter(lambda product: product.stock > 0, product_variants))

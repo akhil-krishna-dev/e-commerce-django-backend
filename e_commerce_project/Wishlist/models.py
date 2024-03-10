@@ -11,7 +11,7 @@ class Wishlist(models.Model):
 
 
     def __str__(self):
-        return str(self.user)+" "+ str(self.product_variant)
+        return str(self.id) +" " + str(self.user)+" "+ str(self.product_variant)
     
     def get_url(self):
         return redirect('dashbord', args=[self.pk])

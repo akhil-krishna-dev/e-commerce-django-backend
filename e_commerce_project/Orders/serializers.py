@@ -4,7 +4,6 @@ from .models import Orders,OrderAddress,Payment
 from Cart.models import Cart
 from Home.models import ProductVariant
 from django.db import transaction
-from rest_framework.decorators import api_view
 
 
 User = get_user_model()

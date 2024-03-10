@@ -1,11 +1,32 @@
 from rest_framework import serializers
 from .models import ProductVariant,Category,ProductDiscription,ProductReviews
+from Wishlist.models import Wishlist
+
 
 class ProductVariantSerializer(serializers.ModelSerializer):
+    in_wishlist = serializers.SerializerMethodField()
+
     class Meta:
         model = ProductVariant
         fields = '__all__'
         depth = 4
+
+    
+    def get_in_wishlist(self, instance):
+
+        user = self.context.get('request_user')
+        wishlist = self.context['wishlist']
+
+        if user and wishlist:
+            for wl in wishlist:
+                if instance.id == wl.product_variant.id:
+                    return True
+        return False
+
+
+
+            
+        
 
         
 class CategorySerializer(serializers.ModelSerializer):
