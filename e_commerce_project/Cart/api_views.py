@@ -14,7 +14,16 @@ class CartApiView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Cart.objects.filter(user=user).order_by('updated')
+        return Cart.objects.filter(user=user).order_by('updated').select_related(
+            'user',
+            'product_variant__product_color_variant__product__category',
+            'product_variant__product_color_variant__product__brand',
+            'product_variant__product_color_variant__product',
+            'product_variant__product_color_variant__color',
+            'product_variant__product_color_variant',
+            'product_variant__size',
+            'product_variant'
+        )
 
     @api_view(['POST'])
     def in_cart(request):      

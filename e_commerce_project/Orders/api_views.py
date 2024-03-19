@@ -27,7 +27,17 @@ class OrderView(viewsets.ModelViewSet):
             return order_list
         user = self.request.user
 
-        return Orders.objects.filter(user=user).order_by('-ordered_date')
+        return Orders.objects.filter(user=user).order_by('-ordered_date').select_related(
+            'user',
+            'product_variant__product_color_variant__product__category',
+            'product_variant__product_color_variant__product__brand',
+            'product_variant__product_color_variant__product',
+            'product_variant__product_color_variant',
+            'product_variant__size',
+            'product_variant',
+            'order_address',
+            'payment'
+        )
 
 
 
@@ -57,6 +67,7 @@ class OrderConfirmView(APIView):
 # razorpay payment handler
 import razorpay
 from rest_framework.decorators import api_view
+MAX_AMOUNT = 500000
 
 @api_view(['POST'])
 def initiate_payment(request):
@@ -66,16 +77,20 @@ def initiate_payment(request):
         order_address_id = request.data['order_address_id']
         cart = Cart.objects.filter(user=user)
 
-        cart_payment = order_save(user, cart, order_address_id )
-        if isinstance(cart_payment, str):
-            print(cart_payment)
-            return Response({'message':cart_payment}, status=status.HTTP_404_NOT_FOUND)
-
         for c in cart:
             amount += (c.quantity * c.product_variant.selling_price())
-        client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
-        
+
         amount *= 100
+
+        if amount > MAX_AMOUNT*100:
+            return Response({'message':"Your transaction limit is Rs.500000"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        cart_payment = order_save(user, cart, order_address_id )
+        if isinstance(cart_payment, str):
+            return Response({'message':cart_payment}, status=status.HTTP_404_NOT_FOUND)
+       
+        client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
+                
         payment_data = {
             'amount': amount,
             'currency': 'INR',

@@ -94,7 +94,7 @@ class UserLoginView(APIView):
                 return Response(data={"message":"There is no account with this email"}, status=status.HTTP_401_UNAUTHORIZED)
             
             if not user.is_active:
-                data={'message':"account is not activated"}
+                data={'message':"We found an account with this email but it is not activated!"}
                 return Response(data, status=status.HTTP_401_UNAUTHORIZED)
             
             if user.check_password(password):

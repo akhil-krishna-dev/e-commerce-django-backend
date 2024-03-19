@@ -49,6 +49,7 @@ class AddToWishlistView(CreateAPIView):
     
     def get_queryset(self):
         return Wishlist.objects.filter(user=self.request.user).select_related(
+            'user',
             'product_variant'
         )
     

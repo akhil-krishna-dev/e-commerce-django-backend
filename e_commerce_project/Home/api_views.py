@@ -22,7 +22,10 @@ class ProductVariantView(viewsets.ModelViewSet):
         user = self.request.user
         wishlist = None
         if user.is_authenticated:
-            wishlist = Wishlist.objects.filter(user=user)
+            wishlist = Wishlist.objects.filter(user=user).select_related(
+                'user',
+                'product_variant'
+            )
         context = super().get_serializer_context()
         context['request_user'] = user
         context['wishlist'] = wishlist
@@ -30,30 +33,74 @@ class ProductVariantView(viewsets.ModelViewSet):
 
 
     def get_queryset(self):
-        product_variants = ProductVariant.objects.all().order_by('stock')
-        filtered_products = list(filter(lambda product: product.stock > 0, product_variants))
-        if self.request.query_params.get('query'):
-            query = self.request.query_params.get('query')
+        product_variants = ProductVariant.objects.all().order_by('stock').select_related(
+            'product_color_variant__product__category',
+            'product_color_variant__product__brand',
+            'product_color_variant__product',
+            'product_color_variant__color',
+            'product_color_variant',
+            'size'
+        )
+
+
+        query = self.request.query_params.get('query')
+        if query:
             products = product_variants.filter(
                 Q(product_color_variant__product__name__icontains=query)|
                 Q(product_color_variant__product__category__name__icontains=query)|
-                Q(product_color_variant__product__search_keywords__icontains=query))
+                Q(product_color_variant__product__search_keywords__icontains=query)).select_related(
+                    'product_color_variant__product__category',
+                    'product_color_variant__product__brand',
+                    'product_color_variant__product',
+                    'product_color_variant__color',
+                    'product_color_variant',
+                    'size'
+                )
             return products
         
-        if self.request.query_params.get('category'):
-            category = self.request.query_params.get('category')
+
+        category = self.request.query_params.get('category')
+        price_filter = self.request.query_params.get('price')
+
+
+
+        if category:           
             products = product_variants.filter(
                 product_color_variant__product__category__slug=category
+            ).select_related(
+                'product_color_variant__product__category',
+                'product_color_variant__product__brand',
+                'product_color_variant__product',
+                'product_color_variant__color',
+                'product_color_variant',
+                'size'
             )
+            if price_filter == 'low':
+                return products.order_by('price')
+            if price_filter == 'high':
+                return products.order_by('-price')
             return products
         
-        if self.request.query_params.get('product_id'):
-            product_id = self.request.query_params.get('product_id')
+        product_id = self.request.query_params.get('product_id')
+        if product_id:         
             products = product_variants.filter(
                 product_color_variant__product__id=product_id
+            ).select_related(
+                'product_color_variant__product__category',
+                'product_color_variant__product__brand',
+                'product_color_variant__product',
+                'product_color_variant__color',
+                'product_color_variant',
+                'size'
             )
             return products
-        
+
+        best_deal = self.request.query_params.get('best_deal')
+        if best_deal: 
+            filtered_products = list(filter(lambda product: product.stock > 0 and product.offer>int(best_deal) , product_variants))
+            return filtered_products       
+
+        filtered_products = list(filter(lambda product: product.stock > 0, product_variants))       
         return filtered_products
 
       
@@ -70,27 +117,34 @@ class ProductDescriptionView(ListAPIView):
 
     def get_queryset(self):
         product_id = self.request.query_params.get('product_id')
-        queryset = ProductDiscription.objects.filter(product__id = product_id)
+        queryset = ProductDiscription.objects.filter(product__id = product_id).select_related(
+            'product'
+        )
         return queryset
     
 
 class ProductReviewView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ProductReviewSerializer
-    queryset = ProductReviews.objects.all()
+    queryset = ProductReviews.objects.all().select_related(
+        'user',
+        'product'
+    )
     
     def get_queryset(self):
         product_id = self.request.query_params.get('product_id')
 
         if product_id:
-            product_reveiws = ProductReviews.objects.filter(product__id=product_id)
+            product_reveiws = ProductReviews.objects.filter(product__id=product_id).select_related(
+                'user',
+                'product'
+            )
             return product_reveiws
 
 
 
 @api_view(['POST'])
 def product_review_save(request):
-    print('data ', request.data)
     product_id = request.data['product_id']
     review = request.data['reveiw']
 
