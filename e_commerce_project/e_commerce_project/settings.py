@@ -97,16 +97,34 @@ ASGI_APPLICATION = 'e_commerce_project.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'e_commerce',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'e_shop',
+        'HOST': 'e-shop.czwygo22qrqj.eu-north-1.rds.amazonaws.com',
+        'USER': 'akhil',
+        'PASSWORD': '369123789',
         'PORT': '5432',
     }
 }
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'e_commerce',
+#         'HOST': 'localhost',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'PORT': '5432',
+#     }
+# }
+
+
+
+
 
 CHANNEL_LAYERS = {
     'default': {
