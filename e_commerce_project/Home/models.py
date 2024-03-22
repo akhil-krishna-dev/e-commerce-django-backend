@@ -134,11 +134,17 @@ class ProductVariant(models.Model):
         
 
 
-
-
 class ProductReviews(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     review = models.TextField()
     date = models.DateField(auto_now_add =True)
+
+
+
+class RecentViewedProducts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
     

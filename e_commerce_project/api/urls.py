@@ -24,6 +24,7 @@ router.register(r'orders',OrderView, 'order')
 router.register(r'order-address',OrderAddressView, 'user-address')
 router.register(r'cart/add-cart',AddCartApiView,'added-cart')
 router.register(r'product/reviews',ProductReviewView, 'review')
+router.register(r'product/recent-products', RecentViewedProductsView, 'recent-product')
 
 urlpatterns = router.urls
 
@@ -53,4 +54,5 @@ urlpatterns = [
     path('user/password-reset/',PasswordResetView.as_view(), name='reset-password'),
     path('user/activate-email/<str:uidb64>/<str:token>/', EmailVerificationView.as_view(), name='email-verify'),
     path('product/reveiw-submit/', product_review_save, name='reveiw-save'),
+    
 ]

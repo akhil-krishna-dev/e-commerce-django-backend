@@ -4,8 +4,9 @@ from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .serializers import *
-from .models import ProductVariant,Category,ProductDiscription,Product,ProductReviews
+from .models import ProductVariant,Category,ProductDiscription,Product,ProductReviews,RecentViewedProducts
 from rest_framework.permissions import AllowAny,IsAuthenticated
+from Wishlist.models import Wishlist
 from django.db.models import Q
 from .pagination import CustomPagination
 
@@ -156,3 +157,13 @@ def product_review_save(request):
     )
     product.save()
     return Response({'message':'review saved'})
+
+
+
+class RecentViewedProductsView(viewsets.ModelViewSet):
+    serializer_class = RencentViewedProductSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+    def get_queryset(self):
+        return RecentViewedProducts.objects.filter(user=self.request.user)

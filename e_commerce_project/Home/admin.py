@@ -45,3 +45,7 @@ admin.site.register(ProductDiscription,AdminProductDiscription)
 class AdminProductReview(admin.ModelAdmin):
     list_display = ['user','product','review']
 admin.site.register(ProductReviews,AdminProductReview)
+
+class AdminRecentProducts(admin.ModelAdmin):
+    list_display = ['id','product']
+admin.site.register(RecentViewedProducts,AdminRecentProducts)
