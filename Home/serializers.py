@@ -33,7 +33,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductDiscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductDiscription
-        fields = ('image','discription_title','description')
+        fields = ('id','image','discription_title','description')
 
 
 class ProductReviewSerializer(serializers.ModelSerializer):
@@ -41,7 +41,7 @@ class ProductReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductReviews
-        fields = ('product','review','user_info','date')
+        fields = ('id','product','review','user_info','date')
 
 
     def get_user_info(self, instance):

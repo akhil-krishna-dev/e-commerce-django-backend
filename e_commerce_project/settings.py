@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+
 import datetime
 import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,16 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-98r%-1p#%%l!%uy_ksfh5)x@ua!(v6qcb)@((kbgo(ybdk1ysb'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'daphne',
@@ -51,9 +54,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'corsheaders',
-    
+    'corsheaders',   
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -90,6 +93,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'e_commerce_project.wsgi.application'
 ASGI_APPLICATION = 'e_commerce_project.asgi.application'
 
@@ -101,29 +105,13 @@ ASGI_APPLICATION = 'e_commerce_project.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'e_shop',
-        'HOST': 'e-shop.czwygo22qrqj.eu-north-1.rds.amazonaws.com',
-        'USER': 'akhil',
-        'PASSWORD': '369123789',
+        'NAME': 'e_commerce',
+        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'PORT': '5432',
     }
 }
-
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'e_commerce',
-#         'HOST': 'localhost',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'PORT': '5432',
-#     }
-# }
-
-
-
 
 
 CHANNEL_LAYERS = {
@@ -151,32 +139,19 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 CORS_ALLOW_CREDENTIALS = True
-
-
 CORS_ALLOWED_ORIGINS = [
-"http://localhost:3000",
-"http://127.0.0.1:3000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
-
-# CSRF_TRUSTED_ORIGINS = [
-# "http://localhost:3000",
-# "http://127.0.0.1:3000",
-# ]
-
-
-# CORS_ORIGIN_WHITELIST = (
-#     'http://localhost:3000',
-#     "http://127.0.0.1:3000",
-# )
-
 
 
 REST_FRAMEWORK = {
+    
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
         'rest_framework.permissions.IsAuthenticated',
@@ -186,17 +161,12 @@ REST_FRAMEWORK = {
 }
 
 
-
 SIMPLE_JWT = {
-     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
-     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=6),
-     'ROTATE_REFRESH_TOKENS': True,
-     'BLACKLIST_AFTER_ROTATION': True
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True
 }
-
-# CSRF_COOKIE_NAME = 'csrftoken'
-# CSRF_HEADER_NAME = 'X-CSRFToken'
-
 
 
 # Internationalization
@@ -222,12 +192,10 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
 AUTH_USER_MODEL = "Accounts.CustomUser"
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -238,18 +206,20 @@ EMAIL_HOST_USER = 'aggilagu@gmail.com'
 EMAIL_HOST_PASSWORD = 'yxfyxrjcjfennwij'
 
 
-
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 KEY = 'rzp_test_L8VApKZTzn8SO7'
 SECRET = 'RzHOMAQJ9DhDZra7R2v2xyuE'
+
 
 PAYPAL_RECEIVER_EMAIL = 'sb-hkbaz26167133@business.example.com'
 PAYPAL_TEST = True

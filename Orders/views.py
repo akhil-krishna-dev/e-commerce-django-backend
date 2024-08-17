@@ -56,7 +56,6 @@ def order_confirm(request):
             "receipt": "rec_"+str(receipt_uuid),
         }
         razorpay_response = client.order.create(data=DATA)
-        print(razorpay_response)
     except:
         pass
 
@@ -95,7 +94,6 @@ def order_confirm(request):
         'paypal':paypal_payment,
         'key':settings.KEY
     }
-    print(item_name)
     
     return render(request, 'order/order-confirm.html', context)
 

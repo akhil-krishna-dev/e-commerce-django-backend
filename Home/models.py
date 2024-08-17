@@ -62,6 +62,7 @@ class Size(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class ProductColorVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=False, null=False)
@@ -73,7 +74,6 @@ class ProductColorVariant(models.Model):
     image5 = models.ImageField(upload_to='product/images',blank=True,null=True)
     image6 = models.ImageField(upload_to='product/images',blank=True,null=True)
     image7 = models.ImageField(upload_to='product/images',blank=True,null=True)
-
 
     def __str__(self):
         if self.color == None:
@@ -100,23 +100,19 @@ class ProductVariant(models.Model):
     def discount_price(self):
         return self.price//100 * self.offer
 
-
     def get_url(self):
         return reverse('product_details', args = [ 
             self.product_color_variant.product.category.slug, 
             self.product_color_variant.product.slug, 
             self.product_color_variant.color.name, 
             self.size.name
-        ])
-        
-    
+        ])   
 
     def __str__(self):
         if self.product_color_variant.color == None:
             return self.product_color_variant.product.name +" ("+  self.size.name+")"
         else:
             return self.product_color_variant.product.name +" ("+ self.product_color_variant.color.name +", "+ self.size.name+")"
-
 
     def clean(self): 
         product = None

@@ -9,6 +9,7 @@ from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 from Cart.models import Cart
+from rest_framework.decorators import action
 
 
 class OrderView(viewsets.ModelViewSet):
@@ -16,6 +17,15 @@ class OrderView(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
+
+        if self.request.query_params.get('orderId'):
+            order_id = self.request.query_params.get('orderId')
+            data = None
+            try:
+                data = Orders.objects.get(id=order_id)
+            except Orders.DoesNotExist:  
+                data = {"message":"object does not found"}  
+            return [data]
 
         if self.request.query_params.get('order_id'):
             order_id = self.request.query_params.get('order_id')

@@ -125,12 +125,8 @@ class ProductDescriptionView(ListAPIView):
     
 
 class ProductReviewView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     serializer_class = ProductReviewSerializer
-    queryset = ProductReviews.objects.all().select_related(
-        'user',
-        'product'
-    )
     
     def get_queryset(self):
         product_id = self.request.query_params.get('product_id')
