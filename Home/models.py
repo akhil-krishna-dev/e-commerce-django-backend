@@ -118,6 +118,7 @@ class ProductVariant(models.Model):
         product = None
         try:     
             product = ProductVariant.objects.filter(
+                product_color_variant__id=self.product_color_variant.pk,
                 product_color_variant__color__id=self.product_color_variant.color.pk,
                 size__id=self.size.pk
             ).first()

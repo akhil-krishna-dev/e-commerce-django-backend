@@ -74,9 +74,8 @@ class Orders(models.Model):
 def order_model_status(sender, instance, create=None, **kwrgs):
 
     if create:
-        print(instance)
+        pass
     else:
-        print("Order updated:", instance.user.id)
         group_name = f"order_updates_{instance.user.id}"
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
