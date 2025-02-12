@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import datetime
 import os
 from pathlib import Path
-
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,11 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-98r%-1p#%%l!%uy_ksfh5)x@ua!(v6qcb)@((kbgo(ybdk1ysb'
+SECRET_KEY = config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 
 ALLOWED_HOSTS = []
@@ -107,8 +107,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'e_commerce',
         'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         'PORT': '5432',
     }
 }
@@ -202,8 +202,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'aggilagu@gmail.com'
-EMAIL_HOST_PASSWORD = 'yxfyxrjcjfennwij'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
 INTERNAL_IPS = [
@@ -217,9 +217,9 @@ INTERNAL_IPS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-KEY = 'rzp_test_L8VApKZTzn8SO7'
-SECRET = 'RzHOMAQJ9DhDZra7R2v2xyuE'
+KEY = ('KEY')
+SECRET = ('SECRET')
 
 
-PAYPAL_RECEIVER_EMAIL = 'sb-hkbaz26167133@business.example.com'
+PAYPAL_RECEIVER_EMAIL = config('PAYPAL_RECEIVER_EMAIL')
 PAYPAL_TEST = True

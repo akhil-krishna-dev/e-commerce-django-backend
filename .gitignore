@@ -1,0 +1,9 @@
+# Default ignored files
+.env
+/shelf/
+/media
+/workspace.xml
+/e_com_venv
+/env
+/venv
+
