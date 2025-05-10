@@ -1,7 +1,8 @@
 # Default ignored files
 .env
 /shelf/
-/media
+media/
+!media/profile/default/
 /workspace.xml
 /e_com_venv
 /env
